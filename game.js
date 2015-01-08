@@ -10,7 +10,7 @@ function Shape () {
 						[true,true]];
 
 
-}
+} 
 
 var grid = new Grid();
 var shape = new Shape();
