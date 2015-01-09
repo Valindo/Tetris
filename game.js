@@ -20,10 +20,15 @@ var shape = new Shape();
 
 display();
 
-window.alert(grid.dimension[0]+"\n"+grid.dimension[1]+"\n"+grid.dimension[2]+"\n"+grid.dimension[3]);
+alert(grid.dimension[0]+"\n"+grid.dimension[1]+"\n"+grid.dimension[2]+"\n"+grid.dimension[3]);
 
-move_down(0); 
-move_down(1);
+// move_down(0); 
+// move_down(1);
+move_right(0);
+move_down(0);
+move_right(1);
+//move_left(1);
+
 
 function display(xaxis,yaxis) {
 	for( var i = 0; i < 2; i++ ){
@@ -47,9 +52,43 @@ function move_down (arg1) {
 				grid.dimension[i][j] = shape.shape_sqr[k][j];
 		}
 	}
-	window.alert(grid.dimension[0]+"\n"+grid.dimension[1]+"\n"+grid.dimension[2]+"\n"+grid.dimension[3]);
+	alert(grid.dimension[0]+"\n"+grid.dimension[1]+"\n"+grid.dimension[2]+"\n"+grid.dimension[3]);
 	//return move_down(arg1);
 	// if(temp<= shape.shape_sqr){
 	// 	return move_down(temp);
 	// }
+}
+
+function move_right (arg1) {
+	for (var i = 0; i < shape.size_sqr; i++){
+		for (var j = arg1; j < arg1+shape.size_sqr;j++) {
+				grid.dimension[i][j] = false;
+		}
+	}
+	arg1 +=1;
+	var temp = arg1;
+	var k = 0; 
+	for (var i = 0; i <  shape.size_sqr; i++, k++){
+		for (var j = arg1; j < arg1+shape.size_sqr;j++) {
+				grid.dimension[i][j] = true;
+		}
+	}
+	alert(grid.dimension[0]+"\n"+grid.dimension[1]+"\n"+grid.dimension[2]+"\n"+grid.dimension[3]);
+}
+
+function move_left (arg1) {
+	for (var i = 0; i < shape.size_sqr; i++){
+		for (var j = arg1; j < arg1+shape.size_sqr;j++) {
+				grid.dimension[i][j] = false;
+		}
+	}
+	arg1 -=1;
+	var temp = arg1;
+	var k = 0; 
+	for (var i = 0; i <  shape.size_sqr; i++, k++){
+		for (var j = arg1+shape.size_sqr; j > arg1; j--) {
+				grid.dimension[i][j] = true;
+		}
+	}
+	alert(grid.dimension[0]+"\n"+grid.dimension[1]+"\n"+grid.dimension[2]+"\n"+grid.dimension[3]);
 }
