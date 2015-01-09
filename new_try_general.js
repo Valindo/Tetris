@@ -53,10 +53,16 @@ grid.display();
 function move_down()		//Function that moves sqaure down by 1 block (Anywhere on grid)
 {
 	//First we remove the square from it's current location
-	grid.dimension[shape.current_top_left_corner[0]][shape.current_top_left_corner[1]] = false;
-	grid.dimension[shape.current_top_left_corner[0]][shape.current_top_left_corner[1]+1] = false;
-	grid.dimension[shape.current_bottom_right_corner[0]][shape.current_bottom_right_corner[1]] = false;
-	grid.dimension[shape.current_bottom_right_corner[0]][shape.current_bottom_right_corner[1]-1] = false;
+	// grid.dimension[shape.current_top_left_corner[0]][shape.current_top_left_corner[1]] = false;
+	// grid.dimension[shape.current_top_left_corner[0]][shape.current_top_left_corner[1]+1] = false;
+	// grid.dimension[shape.current_bottom_right_corner[0]][shape.current_bottom_right_corner[1]] = false;
+	// grid.dimension[shape.current_bottom_right_corner[0]][shape.current_bottom_right_corner[1]-1] = false;
+
+	for ( var i = shape.current_top_left_corner[0]; i <= shape.current_bottom_right_corner[0]-1;i++){
+		for ( var j = shape.current_top_left_corner[1]; j <= shape.current_bottom_right_corner[1];j++){
+			grid.dimension[i][j] = false;
+		}
+	}
 	
 	//Then we shift it one position lower on the grid
 	grid.dimension[shape.current_top_left_corner[0]+1][shape.current_top_left_corner[1]] = true;
@@ -99,7 +105,7 @@ function move_left()	//Function that moves sqaure left by 1 block (Anywhere on g
 	console.log(shape.current_bottom_right_corner);
 }
 
-move_left();
+// move_left();
 move_down();
 
 function move_right()	//Function that moves sqaure left by 1 block (Anywhere on grid)
@@ -125,7 +131,7 @@ function move_right()	//Function that moves sqaure left by 1 block (Anywhere on 
 	console.log(shape.current_bottom_right_corner);
 }
 
-move_right();
-move_right();
+// move_right();
+// move_right();
 move_down();
-move_left();
+// move_left();

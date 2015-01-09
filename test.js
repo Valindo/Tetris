@@ -19,13 +19,17 @@ Grid.prototype.init_grid = function() {
 };
 
 function Shapes() {
-	
+	this.shape_sqr = [[true,true]
+					[true,true]];
+
+	this.array_shape = [this.shape_sqr];
+
 }
 
 
 
 var grid = new Grid();
-
+var shapes = new Shapes();
 grid.init_grid();
 
 
@@ -35,3 +39,5 @@ for ( var i = 0; i< 5; i++ ){
 	}
 	console.log("\n");
 }
+
+console.log(shapes.array_shape[shapes.shape_sqr[0][0]]);
