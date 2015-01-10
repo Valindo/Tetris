@@ -19,11 +19,9 @@ Grid.prototype.init_grid = function() {
 };
 
 function Shapes() {
-	this.shape_sqr = [[true,true]
-					[true,true]];
-
-	this.array_shape = [this.shape_sqr];
-
+	this.dimension = [[1,2]
+					[3,4]];
+	this.size_of = 2;
 }
 
 
@@ -33,11 +31,95 @@ var shapes = new Shapes();
 grid.init_grid();
 
 
-for ( var i = 0; i< 5; i++ ){
-	for ( var j = 0; j<5; j++ ){
-		console.log(grid.dimension[i][j]);
+// for ( var i = 0; i< 5; i++ ){
+// 	for ( var j = 0; j<5; j++ ){
+// 		console.log(grid.dimension[i][j]);
+// 	}
+// 	console.log("\n");
+// }
+
+// console.log(shapes.array_shape[0]);
+
+
+function rotate (shape_object,rotation) {
+	var temp_shape = shape_object;
+
+	if ( rotation === 4 ){
+		rotation = 0;
 	}
-	console.log("\n");
+
+	erase_object(shape_object);
+
+	switch(rotation){
+		case 0:
+			case_0(temp_shape,shape_object);
+			break;
+		case 1:
+			case_1(temp_shape,shape_object);
+			break;
+		case 2:
+			case_2(temp_shape,shape_object);
+			break;
+		case 3:
+			case_3(temp_shape,shape_object);
+			break;
+	}
+
 }
 
-console.log(shapes.array_shape[shapes.shape_sqr[0][0]]);
+function erase_object(shape_object){
+	for ( var i = 0; i < shape_object.size_of; i++ ){
+		for ( var j = 0; j < shape_object.size_of; j++ ){
+			shape_object.dimension[i][j] = false;
+		}
+	}
+}
+
+function case_0 (temp_shape,shape_object) {
+	for ( var i = 0; i < shape_object.size_of; i++ ){
+		for ( var j = 0; j < shape_object.size_of; j++ ){
+			shape_object.dimension[i][j] = temp_shape.dimension[i][j]
+		}
+	}
+}
+
+function case_1 (temp_shape,shape_object) {
+	var m = 0;
+	var n = 0;
+	for ( var i = 0; i < shape_object.size_of; i++,m++ ){
+		for ( var j = shape_object.size_of - 1; j >=0; j--,n++ ){
+			shape_object.dimension[m][n] = temp_shape.dimension[j][i];
+		}
+	}
+}
+
+function case_2 (temp_shape,shape_object) {
+	var m = 0;
+	var n = 0;
+	for ( var i = shape_object-1; i >= 0; i--,m++ ){
+		for ( var j = shape_object.size_of - 1; j >=0; j--,n++ ){
+			shape_object.dimension[m][n] = temp_shape.dimension[i][j];
+		}
+	}	
+}
+
+function case_3 (temp_shape,shape_object) {
+	var m = 0;
+	var n = 0;
+	for ( var i = shape_object-1; i >= 0; i--,m++ ){
+		for ( var j = 0; j < shape_object.size_of; j--,n++ ){
+			shape_object.dimension[m][n] = temp_shape.dimension[j][i];
+		}
+	}	
+}
+
+function print(shape_object){
+	for ( var i = 0; i < shape_object.size_of; i++ ){
+		for ( var j = 0; j < shape_object.size_of; j++ ){
+			console.log(shape_object.dimension[i][j]);
+		}
+		console.log("\n");
+	}
+}
+
+print(shapes);
