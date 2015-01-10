@@ -125,3 +125,4 @@ function print(shape_object){
 }
 
 print(shapes);
+  
