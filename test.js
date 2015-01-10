@@ -19,7 +19,7 @@ Grid.prototype.init_grid = function() {
 };
 
 function Shapes() {
-	this.dimension = [[1,2]
+	this.dimension = [[1,2],
 					[3,4]];
 	this.size_of = 2;
 }
@@ -48,7 +48,7 @@ function rotate (shape_object,rotation) {
 		rotation = 0;
 	}
 
-	erase_object(shape_object);
+	// erase_object(shape_object);
 
 	switch(rotation){
 		case 0:
@@ -70,9 +70,10 @@ function rotate (shape_object,rotation) {
 function erase_object(shape_object){
 	for ( var i = 0; i < shape_object.size_of; i++ ){
 		for ( var j = 0; j < shape_object.size_of; j++ ){
-			shape_object.dimension[i][j] = false;
+			shape_object.dimension[i][j] = 0;
 		}
 	}
+	return;
 }
 
 function case_0 (temp_shape,shape_object) {
@@ -101,6 +102,7 @@ function case_2 (temp_shape,shape_object) {
 			shape_object.dimension[m][n] = temp_shape.dimension[i][j];
 		}
 	}	
+	print(shapes);
 }
 
 function case_3 (temp_shape,shape_object) {
