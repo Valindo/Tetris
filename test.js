@@ -13,7 +13,7 @@ Grid.prototype.init_grid = function() {
 	for ( var i = 0; i < 5; i++ ){
 		this.dimension[i] = [];
 		for ( var j = 0; j < 5; j++ ){
-			this.dimension[i][j] = new Blocks(i,j);
+			this.dimension[i][j] = new Blocks(i,j); 
 		}
 	}
 };
