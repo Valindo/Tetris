@@ -18,6 +18,37 @@ Grid.prototype.init_grid = function() {
 	}
 }
 
+function Superimpose () {
+	this.temp_grid = [];
+}
+
+Superimpose.prototype.copyGrid = function(grid_object) {
+	this.temp_grid = grid_object.dimension;
+};
+
+Superimpose.prototype.copyShape = function(shape_object){
+	var state = false;
+	for ( var i = 0; i < shape_object.size_of; i++ ){
+		for ( var j = 0; j < shape_object.size_of; j++ ){
+			if ( this.temp_grid[i][j] === true && shape_object.dimension[i][j]){
+				state = true;
+			}
+		}
+	}
+
+	if ( state === true ){
+		console.log("Invalid move");
+	}
+};
+
+// Collision detection
+Superimpose.prototype.collisionDetection = function(shape_object,i,j) {
+	if ( this.temp_grid[i][j] === true && shape_object.dimension[i][j] === true ){
+		return true;
+	}
+	return false;
+};
+
 function Shape_Square(){					
 	this.dimension = [[true,true],
 					  [true,true]];
