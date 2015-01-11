@@ -16,18 +16,29 @@ Grid.prototype.init_grid = function() {
 			this.dimension[i][j] = new Blocks(i,j);
 		}
 	}
-};
+}
 
-function Shapes() {
-	this.dimension = [[1,2],
-					[3,4]];
+function Shape_Square(){					
+	this.dimension = [[true,true],
+					  [true,true]];
 	this.size_of = 2;
 }
 
+function Shape_T(){
+	this.dimension = [[true,true,true],
+					  [false,true,false],
+					  [false,false,false]];
+	this.size_of = 3;
+}
 
+function Shape_Z(){
+	this.dimension = [[true,true,false],
+					  [false,true,true],
+					  [false,false,false]];
+}
 
 var grid = new Grid();
-var shapes = new Shapes();
+var shapes = new Shape_Square();
 grid.init_grid();
 
 
