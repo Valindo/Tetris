@@ -2,7 +2,7 @@
 function Blocks (pos_x,pos_y) {
 	this.pos_x = pos_x;
 	this.pos_y = pos_y;
-	this.state = false;
+	this.state = 0;
 }
 //This is the whole Grid
 function Grid() {
@@ -18,54 +18,63 @@ Grid.prototype.init_grid = function() {
 	}
 }
 
+//Temp Grid ( SuperImpose )
 function Superimpose () {
 	this.temp_grid = [];
 }
 
-Superimpose.prototype.copyGrid = function(grid_object) {
-	this.temp_grid = grid_object.dimension;
-};
-
-Superimpose.prototype.copyShape = function(shape_object){
-	var state = false;
-	for ( var i = 0; i < shape_object.size_of; i++ ){
-		for ( var j = 0; j < shape_object.size_of; j++ ){
-			if ( this.temp_grid[i][j] === true && shape_object.dimension[i][j]){
-				state = true;
-			}
+//Grid Init
+Superimpose.prototype.init_super = function() {
+	for ( var i = 0; i < 5; i++ ){
+		this.temp_grid[i] = [];
+		for ( var j = 0; j < 5; j++ ){
+			this.temp_grid[i][j] = new Blocks(i,j);
 		}
 	}
-
-	if ( state === true ){
-		console.log("Invalid move");
-	}
 };
 
-// Collision detection
-Superimpose.prototype.collisionDetection = function(shape_object,i,j) {
-	if ( this.temp_grid[i][j] === true && shape_object.dimension[i][j] === true ){
-		return true;
-	}
-	return false;
-};
+
+// Superimpose.prototype.copyShape = function(shape_object){
+// 	var state = 0;
+// 	for ( var i = 0; i < shape_object.size_of; i++ ){
+// 		for ( var j = 0; j < shape_object.size_of; j++ ){
+// 			if ( this.collisionDetection(shape_object, i, j) ){
+// 				state = 1;
+// 			}
+// 		}
+// 	}
+
+// 	if ( state === 1 ){
+// 		console.log("Invalid move");
+// 	}
+// };
+
+// // Collision detection
+// Superimpose.prototype.collisionDetection = function(shape_object,i,j) {
+// 	if ( this.temp_grid[i][j] === 1 && shape_object.dimension[i][j] === 1 ){
+// 		return 1;
+// 	}
+// 	return 0;
+// };
 
 function Shape_Square(){					
-	this.dimension = [[true,true],
-					  [true,true]];
+	this.dimension = [[1,1,0],
+					  [1,1,0]
+					  [0,0,0]];
 	this.size_of = 2;
 }
 
 function Shape_T(){
-	this.dimension = [[true,true,true],
-					  [false,true,false],
-					  [false,false,false]];
+	this.dimension = [[1,1,1],
+					  [0,1,0],
+					  [0,0,0]];
 	this.size_of = 3;
 }
 
 function Shape_Z(){
-	this.dimension = [[true,true,false],
-					  [false,true,true],
-					  [false,false,false]];
+	this.dimension = [[1,1,0],
+					  [0,1,1],
+					  [0,0,0]];
 }
 
 var grid = new Grid();
