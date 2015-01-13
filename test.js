@@ -110,20 +110,13 @@ function Shape_Z(){
 	this.size_of = 3;
 }
 
-var grid = new Grid();
+var grid = new Grid(rows,cols);
 var shapes = new Shape_Square();
-var superimpose = new Superimpose();
+var superimpose = new Superimpose(rows.cols);
 var t = new Shape_Z();
 var canvas = document.getElementById("gridCanvas");
 var ctx = canvas.getContext("2d");
 grid.init_grid();
-// ctx.fillStyle = "#f76000"
-// ctx.fillRect(0,0,25,25);
-// ctx.fillStyle = "#f00000"
-// ctx.fillRect(0,25,25,25);
-// ctx.fillStyle = "#f00000"
-// ctx.fillRect(25,0,25,25);
-// var color = "2980b9";
 var m = 0;
 var n = 0;
 superimpose.init_super();
