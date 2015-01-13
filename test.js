@@ -10,10 +10,10 @@ function Grid() {
 }
 //Decalres every element in the grid
 Grid.prototype.init_grid = function() {
-	for ( var i = 0; i < 5; i++ ){
+	for ( var i = 0; i < 20; i++ ){
 		this.dimension[i] = [];
-		for ( var j = 0; j < 5; j++ ){
-			this.dimension[i][j] = new Blocks(i,j); 
+		for ( var j = 0; j < 12; j++ ){
+			this.dimension[i][j] = new Blocks(i*25,j*25); 
 		}
 	}
 }
@@ -104,12 +104,26 @@ var grid = new Grid();
 var shapes = new Shape_Square();
 var superimpose = new Superimpose();
 var t = new Shape_T();
+var canvas = document.getElementById("gridCanvas");
+var ctx = canvas.getContext("2d");
 grid.init_grid();
 
 
-// rotate(t,1);
-// rotate(t,2);
-// rotate(t,3);
+for (var i = 25; i < 300; i+=25){
+	ctx.moveTo(i,0);
+	ctx.lineTo(i,500);
+	ctx.stroke();
+}
+
+for ( var i = 25; i < 500; i+=25 ){
+	ctx.moveTo(0,i);
+	ctx.lineTo(300,i);
+	ctx.stroke();
+}
+
+
+
+
 
 
 
@@ -220,7 +234,7 @@ function case_3 (temp_shape,shape_object) {
 // }
 
 
-rotate(t,2);
+// rotate(t,2);
 var current_x = 0;
 var current_y = 0;
 function move_down(shape_object){
