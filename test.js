@@ -33,6 +33,28 @@ Superimpose.prototype.init_super = function() {
 	}
 };
 
+Superimpose.prototype.newShape = function(shape_object) {
+	var valid_state = 0;
+	for ( var i = 0; i < 3; i++ ){
+		for ( var j = 0; j < 3; j++ ){
+			if ( this.temp_grid[i][j] != 0 ){
+				valid_state = 1;
+			}
+		}
+	}
+
+	if (valid_state === 0){
+		for ( var i = 0; i < 3; i++ ){
+			for ( var j = 0; j < 3; j++ ){
+				this.temp_grid[i][j] = shape_object[i][j];
+			}
+		}
+	}
+	else{
+		console.log("Go cry to yer Momma");
+	}
+};
+
 
 // Superimpose.prototype.copyShape = function(shape_object){
 // 	var state = 0;
@@ -61,7 +83,7 @@ function Shape_Square(){
 	this.dimension = [[1,1,0],
 					  [1,1,0]
 					  [0,0,0]];
-	this.size_of = 2;
+	this.size_of = 3;
 }
 
 function Shape_T(){
@@ -79,7 +101,15 @@ function Shape_Z(){
 
 var grid = new Grid();
 var shapes = new Shape_Square();
+var superimpose = new Superimpose();
+var t = new Shape_T();
 grid.init_grid();
+
+
+// rotate(t,1);
+// rotate(t,2);
+// rotate(t,3);
+
 
 
 // for ( var i = 0; i< 5; i++ ){
@@ -93,6 +123,7 @@ grid.init_grid();
 
 
 function rotate (shape_object,rotation) {
+	window.alert("Problem is here");
 	var temp_shape = shape_object;
 
 	if ( rotation === 4 ){
@@ -106,13 +137,18 @@ function rotate (shape_object,rotation) {
 			case_0(temp_shape,shape_object);
 			break;
 		case 1:
+
 			case_1(temp_shape,shape_object);
 			break;
 		case 2:
+
 			case_2(temp_shape,shape_object);
 			break;
 		case 3:
 			case_3(temp_shape,shape_object);
+			break;
+		default:
+			window.alert("Problem is here");
 			break;
 	}
 
@@ -130,7 +166,7 @@ function erase_object(shape_object){
 function case_0 (temp_shape,shape_object) {
 	for ( var i = 0; i < shape_object.size_of; i++ ){
 		for ( var j = 0; j < shape_object.size_of; j++ ){
-			shape_object.dimension[i][j] = temp_shape.dimension[i][j]
+			shape_object.dimension[i][j];// = temp_shape.dimension[i][j]
 		}
 	}
 }
@@ -140,40 +176,47 @@ function case_1 (temp_shape,shape_object) {
 	var n = 0;
 	for ( var i = 0; i < shape_object.size_of; i++,m++ ){
 		for ( var j = shape_object.size_of - 1; j >=0; j--,n++ ){
-			shape_object.dimension[m][n] = temp_shape.dimension[j][i];
-		}
-	}
-}
-
-function case_2 (temp_shape,shape_object) {
-	var m = 0;
-	var n = 0;
-	for ( var i = shape_object-1; i >= 0; i--,m++ ){
-		for ( var j = shape_object.size_of - 1; j >=0; j--,n++ ){
-			shape_object.dimension[m][n] = temp_shape.dimension[i][j];
-		}
-	}	
-	print(shapes);
-}
-
-function case_3 (temp_shape,shape_object) {
-	var m = 0;
-	var n = 0;
-	for ( var i = shape_object-1; i >= 0; i--,m++ ){
-		for ( var j = 0; j < shape_object.size_of; j--,n++ ){
-			shape_object.dimension[m][n] = temp_shape.dimension[j][i];
-		}
-	}	
-}
-
-function print(shape_object){
-	for ( var i = 0; i < shape_object.size_of; i++ ){
-		for ( var j = 0; j < shape_object.size_of; j++ ){
-			console.log(shape_object.dimension[i][j]);
+			// shape_object.dimension[m][n] = 
+			window.alert(temp_shape.dimension[j][i]);
 		}
 		console.log("\n");
 	}
 }
 
-print(shapes);
-  
+function case_2 (temp_shape,shape_object) {
+	window.alert("Problem is here");
+	var m = 0;
+	var n = 0;
+	for ( var i = shape_object.size_of-1; i >= 0; i--,m++ ){
+		for ( var j = shape_object.size_of - 1; j >=0; j--,n++ ){
+			//shape_object.dimension[m][n] = 
+			window.alert(temp_shape.dimension[i][j]);
+		}
+		console.log("\n");
+	}	
+	// print(shapes);
+}
+
+function case_3 (temp_shape,shape_object) {
+	var m = 0;
+	var n = 0;
+	for ( var i = shape_object.size_of-1; i >= 0; i--,m++ ){
+		for ( var j = 0; j < shape_object.size_of; j++,n++ ){
+			//shape_object.dimension[m][n] = 
+			window.alert(temp_shape.dimension[j][i]);
+		}
+		console.log("\n");
+	}	
+}
+
+// function print(shape_object){
+// 	for ( var i = 0; i < shape_object.size_of; i++ ){
+// 		for ( var j = 0; j < shape_object.size_of; j++ ){
+// 			console.log(shape_object.dimension[i][j]);
+// 		}
+// 		console.log("\n");
+// 	}
+// }
+
+
+rotate(t,2);
