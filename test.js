@@ -1,3 +1,7 @@
+//Specify the Number of rows and columns
+var rows = 20;
+var cols = 12;
+var padding = 25;
 //Every individual block in the grid
 function Blocks (pos_x,pos_y) {
 	this.pos_x = pos_x;
@@ -5,30 +9,34 @@ function Blocks (pos_x,pos_y) {
 	this.state = 0;
 }
 //This is the whole Grid
-function Grid() {
+function Grid(rows,cols) {
 	this.dimension = []; // Have an array here to hold all the values of the grid
+	this.rows = rows;
+	this.cols = cols;
 }
 //Decalres every element in the grid
 Grid.prototype.init_grid = function() {
-	for ( var i = 0; i < 20; i++ ){
+	for ( var i = 0; i < this.rows; i++ ){
 		this.dimension[i] = [];
-		for ( var j = 0; j < 12; j++ ){
-			this.dimension[i][j] = new Blocks(i*25,j*25); 
+		for ( var j = 0; j < this.cols; j++ ){
+			this.dimension[i][j] = new Blocks(i*padding,j*padding); 
 		}
 	}
 }
 
 //Temp Grid ( SuperImpose )
-function Superimpose () {
+function Superimpose (rows,cols) {
 	this.temp_grid = [];
+	this.rows = rows;
+	this.cols = cols;
 }
 
 //Grid Init
 Superimpose.prototype.init_super = function() {
-	for ( var i = 0; i < 20; i++ ){
+	for ( var i = 0; i < this.rows; i++ ){
 		this.temp_grid[i] = [];
-		for ( var j = 0; j < 12; j++ ){
-			this.temp_grid[i][j] = new Blocks(i*25,j*25);
+		for ( var j = 0; j < this.cols; j++ ){
+			this.temp_grid[i][j] = new Blocks(i*padding,j*padding);
 		}
 	}
 };
@@ -121,61 +129,19 @@ var n = 0;
 superimpose.init_super();
 superimpose.copyShape(t);
 move_down(t);
-for ( var i = 0; i < 300; i+=25){
-	for ( var j = 0; j < 500; j+=25 ){
-		var m = i/25; //Had to do this because of the Indexing, Yes it is a bitch
-		var n = j/25;
+for ( var i = 0; i < 300; i+=padding){
+	for ( var j = 0; j < 500; j+=padding ){
+		var m = i/padding; //Had to do this because of the Indexing, Yes it is a bitch
+		var n = j/padding;
 		if (superimpose.temp_grid[n][m].state === 1){
 			ctx.fillStyle = "#f39c12";
 		}
 		else{
 			ctx.fillStyle = "#3498db";
 		}
-		// if (  === 0 && j === 0 ){
-		// 	ctx.fillStyle = "#f39c12"
-		// }
-
-		// else if ( i === 0 && j === 25){
-		// 	ctx.fillStyle = "#2980b9"
-		// }
-		// else{
-		// 	ctx.fillStyle = "#f00000"
-		// }
-		ctx.fillRect(i,j,25,25);
+		ctx.fillRect(i,j,padding,padding);
 	}
 }
-
-function color_change (i,j) {
-	
-	var row = i%4;
-	var column = j%3;
-}
-// for (var i = 25; i < 300; i+=25){
-// 	ctx.moveTo(i,0);
-// 	ctx.lineTo(i,500);
-// 	ctx.stroke();
-// }
-
-// for ( var i = 25; i < 500; i+=25 ){
-// 	ctx.moveTo(0,i);
-// 	ctx.lineTo(300,i);
-// 	ctx.stroke();
-// }
-
-
-
-
-
-
-
-// for ( var i = 0; i< 5; i++ ){
-// 	for ( var j = 0; j<5; j++ ){
-// 		console.log(grid.dimension[i][j]);
-// 	}
-// 	console.log("\n");
-// }
-
-// console.log(shapes.array_shape[0]);
 
 
 function rotate (shape_object,rotation) {
@@ -265,17 +231,7 @@ function case_3 (temp_shape,shape_object) {
 	}	
 }
 
-// function print(shape_object){
-// 	for ( var i = 0; i < shape_object.size_of; i++ ){
-// 		for ( var j = 0; j < shape_object.size_of; j++ ){
-// 			console.log(shape_object.dimension[i][j]);
-// 		}
-// 		console.log("\n");
-// 	}
-// }
 
-
-// rotate(t,2);
 var current_x = 0;
 var current_y = 0;
 function move_down(shape_object){
