@@ -227,6 +227,7 @@ function move_down(shape_object){
 
 	var m = 0;
 	var n = 0;
+	//First switch the current positions of the shape to 0
 	for(i= current_x; i <current_x+ shape_object.size_of; i++) 
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++)
@@ -236,8 +237,9 @@ function move_down(shape_object){
 		}
 	}
 	console.log("\n");
-	current_x++;
+	current_x++;		//Update the current positon of the square 
 
+	//Update all the blocks of the shape to their new position
 	for(i= current_x; i <current_x+ shape_object.size_of; i++,m++) 
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++,n++)
@@ -247,6 +249,58 @@ function move_down(shape_object){
 		}
 		n=0;
 	}
-
-
 }
+
+function move_left(shape_object){
+	var m=0;
+	var n=0;
+	//First switch the current positions of the shape to 0
+	for(i = current_x; i<current_x+shape_object.size_of; i++)
+	{
+		for(j= current_y; j< current_y + shape_object.size_of; j++)
+		{
+			this.temp_grid[i][j] = 0;
+			//console.log(i +"\t" +j);
+		}
+	}
+
+current_y--;		//Update the current positon of the square 
+
+//Update all the blocks of the shape to their new position
+	for(i= current_x; i <current_x+ shape_object.size_of; i++,m++) 
+	{
+		for(j= current_y; j< current_y + shape_object.size_of; j++,n++)
+		{
+			this.temp_grid[i][j] = shape_object.dimension[m][n];
+			//console.log(i + "\t" + j);
+		}
+		n=0;
+	}
+}	
+
+function move_right(shape_object){
+	var m=0;
+	var n=0;
+	//First switch the current positions of the shape to 0
+	for(i = current_x; i<current_x+shape_object.size_of; i++)
+	{
+		for(j= current_y; j< current_y + shape_object.size_of; j++)
+		{
+			this.temp_grid[i][j] = 0;
+			//console.log(i +"\t" +j);
+		}
+	}
+
+current_y++;		//Update the current positon of the square 
+
+//Update all the blocks of the shape to their new position
+	for(i= current_x; i <current_x+ shape_object.size_of; i++,m++) 
+	{
+		for(j= current_y; j< current_y + shape_object.size_of; j++,n++)
+		{
+			this.temp_grid[i][j] = shape_object.dimension[m][n];
+			//console.log(i + "\t" + j);
+		}
+		n=0;
+	}
+}	
