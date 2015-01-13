@@ -25,10 +25,10 @@ function Superimpose () {
 
 //Grid Init
 Superimpose.prototype.init_super = function() {
-	for ( var i = 0; i < 5; i++ ){
+	for ( var i = 0; i < 20; i++ ){
 		this.temp_grid[i] = [];
-		for ( var j = 0; j < 5; j++ ){
-			this.temp_grid[i][j] = new Blocks(i,j);
+		for ( var j = 0; j < 12; j++ ){
+			this.temp_grid[i][j] = new Blocks(i*25,j*25);
 		}
 	}
 };
@@ -56,15 +56,17 @@ Superimpose.prototype.newShape = function(shape_object) {
 };
 
 
-// Superimpose.prototype.copyShape = function(shape_object){
-// 	var state = 0;
-// 	for ( var i = 0; i < shape_object.size_of; i++ ){
-// 		for ( var j = 0; j < shape_object.size_of; j++ ){
-// 			if ( this.collisionDetection(shape_object, i, j) ){
-// 				state = 1;
-// 			}
-// 		}
-// 	}
+Superimpose.prototype.copyShape = function(shape_object){
+	var state = 0;
+	for ( var i = 0; i < shape_object.size_of; i++ ){
+		for ( var j = 0; j < shape_object.size_of; j++ ){
+			// if ( this.collisionDetection(shape_object, i, j) ){
+				if ( shape_object.dimension[i][j] === 1){
+					this.temp_grid[i][j].state = 1;
+				}
+			}
+		}
+	}
 
 // 	if ( state === 1 ){
 // 		console.log("Invalid move");
@@ -103,23 +105,62 @@ function Shape_Z(){
 var grid = new Grid();
 var shapes = new Shape_Square();
 var superimpose = new Superimpose();
-var t = new Shape_T();
+var t = new Shape_Z();
 var canvas = document.getElementById("gridCanvas");
 var ctx = canvas.getContext("2d");
 grid.init_grid();
+// ctx.fillStyle = "#f76000"
+// ctx.fillRect(0,0,25,25);
+// ctx.fillStyle = "#f00000"
+// ctx.fillRect(0,25,25,25);
+// ctx.fillStyle = "#f00000"
+// ctx.fillRect(25,0,25,25);
+// var color = "2980b9";
+var m = 0;
+var n = 0;
+superimpose.init_super();
+superimpose.copyShape(t);
+move_down(t);
+for ( var i = 0; i < 300; i+=25){
+	for ( var j = 0; j < 500; j+=25 ){
+		var m = i/25; //Had to do this because of the Indexing, Yes it is a bitch
+		var n = j/25;
+		if (superimpose.temp_grid[n][m].state === 1){
+			ctx.fillStyle = "#f39c12";
+		}
+		else{
+			ctx.fillStyle = "#3498db";
+		}
+		// if (  === 0 && j === 0 ){
+		// 	ctx.fillStyle = "#f39c12"
+		// }
 
-
-for (var i = 25; i < 300; i+=25){
-	ctx.moveTo(i,0);
-	ctx.lineTo(i,500);
-	ctx.stroke();
+		// else if ( i === 0 && j === 25){
+		// 	ctx.fillStyle = "#2980b9"
+		// }
+		// else{
+		// 	ctx.fillStyle = "#f00000"
+		// }
+		ctx.fillRect(i,j,25,25);
+	}
 }
 
-for ( var i = 25; i < 500; i+=25 ){
-	ctx.moveTo(0,i);
-	ctx.lineTo(300,i);
-	ctx.stroke();
+function color_change (i,j) {
+	
+	var row = i%4;
+	var column = j%3;
 }
+// for (var i = 25; i < 300; i+=25){
+// 	ctx.moveTo(i,0);
+// 	ctx.lineTo(i,500);
+// 	ctx.stroke();
+// }
+
+// for ( var i = 25; i < 500; i+=25 ){
+// 	ctx.moveTo(0,i);
+// 	ctx.lineTo(300,i);
+// 	ctx.stroke();
+// }
 
 
 
@@ -245,19 +286,19 @@ function move_down(shape_object){
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++)
 		{
-			this.temp_grid[i][j] = 0;
-			console.log(i +"\t" +j);
+			superimpose.temp_grid[i][j] = 0;
+			// console.log(i +"\t" +j);
 		}
 	}
-	console.log("\n");
+	// console.log("\n");
 	current_x++;
 
 	for(i= current_x; i <current_x+ shape_object.size_of; i++,m++) 
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++,n++)
 		{
-			this.temp_grid[i][j] = shape_object.dimension[m][n];
-			console.log(m + "\t" + n);
+			superimpose.temp_grid[i][j] = shape_object.dimension[m][n];
+			// console.log(m + "\t" + n);
 		}
 		n=0;
 	}
