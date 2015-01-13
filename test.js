@@ -247,13 +247,9 @@ function move_down(shape_object){
 			// console.log(i +"\t" +j);
 		}
 	}
-<<<<<<< HEAD
-	console.log("\n");
-	current_x++;		//Update the current positon of the square 
-=======
+
 	// console.log("\n");
 	current_x++;
->>>>>>> Generating_Grid
 
 	//Update all the blocks of the shape to their new position
 	for(i= current_x; i <current_x+ shape_object.size_of; i++,m++) 
