@@ -83,7 +83,7 @@ function Shape_Square(){
 	this.dimension = [[1,1,0],
 					  [1,1,0]
 					  [0,0,0]];
-	this.size_of = 3;
+	this.size_of = 2;
 }
 
 function Shape_T(){
@@ -97,6 +97,7 @@ function Shape_Z(){
 	this.dimension = [[1,1,0],
 					  [0,1,1],
 					  [0,0,0]];
+	this.size_of = 3;
 }
 
 var grid = new Grid();
@@ -220,3 +221,32 @@ function case_3 (temp_shape,shape_object) {
 
 
 rotate(t,2);
+var current_x = 0;
+var current_y = 0;
+function move_down(shape_object){
+
+	var m = 0;
+	var n = 0;
+	for(i= current_x; i <current_x+ shape_object.size_of; i++) 
+	{
+		for(j= current_y; j< current_y + shape_object.size_of; j++)
+		{
+			this.temp_grid[i][j] = 0;
+			console.log(i +"\t" +j);
+		}
+	}
+	console.log("\n");
+	current_x++;
+
+	for(i= current_x; i <current_x+ shape_object.size_of; i++,m++) 
+	{
+		for(j= current_y; j< current_y + shape_object.size_of; j++,n++)
+		{
+			this.temp_grid[i][j] = shape_object.dimension[m][n];
+			console.log(m + "\t" + n);
+		}
+		n=0;
+	}
+
+
+}
