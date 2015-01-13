@@ -1,3 +1,7 @@
+//Specify the Number of rows and columns
+var rows = 20;
+var cols = 12;
+var padding = 25;
 //Every individual block in the grid
 function Blocks (pos_x,pos_y) {
 	this.pos_x = pos_x;
@@ -5,30 +9,34 @@ function Blocks (pos_x,pos_y) {
 	this.state = 0;
 }
 //This is the whole Grid
-function Grid() {
+function Grid(rows,cols) {
 	this.dimension = []; // Have an array here to hold all the values of the grid
+	this.rows = rows;
+	this.cols = cols;
 }
 //Decalres every element in the grid
 Grid.prototype.init_grid = function() {
-	for ( var i = 0; i < 20; i++ ){
+	for ( var i = 0; i < this.rows; i++ ){
 		this.dimension[i] = [];
-		for ( var j = 0; j < 12; j++ ){
-			this.dimension[i][j] = new Blocks(i*25,j*25); 
+		for ( var j = 0; j < this.cols; j++ ){
+			this.dimension[i][j] = new Blocks(i*padding,j*padding); 
 		}
 	}
 }
 
 //Temp Grid ( SuperImpose )
-function Superimpose () {
+function Superimpose (rows,cols) {
 	this.temp_grid = [];
+	this.rows = rows;
+	this.cols = cols;
 }
 
 //Grid Init
 Superimpose.prototype.init_super = function() {
-	for ( var i = 0; i < 5; i++ ){
+	for ( var i = 0; i < this.rows; i++ ){
 		this.temp_grid[i] = [];
-		for ( var j = 0; j < 5; j++ ){
-			this.temp_grid[i][j] = new Blocks(i,j);
+		for ( var j = 0; j < this.cols; j++ ){
+			this.temp_grid[i][j] = new Blocks(i*padding,j*padding);
 		}
 	}
 };
@@ -56,15 +64,17 @@ Superimpose.prototype.newShape = function(shape_object) {
 };
 
 
-// Superimpose.prototype.copyShape = function(shape_object){
-// 	var state = 0;
-// 	for ( var i = 0; i < shape_object.size_of; i++ ){
-// 		for ( var j = 0; j < shape_object.size_of; j++ ){
-// 			if ( this.collisionDetection(shape_object, i, j) ){
-// 				state = 1;
-// 			}
-// 		}
-// 	}
+Superimpose.prototype.copyShape = function(shape_object){
+	var state = 0;
+	for ( var i = 0; i < shape_object.size_of; i++ ){
+		for ( var j = 0; j < shape_object.size_of; j++ ){
+			// if ( this.collisionDetection(shape_object, i, j) ){
+				if ( shape_object.dimension[i][j] === 1){
+					this.temp_grid[i][j].state = 1;
+				}
+			}
+		}
+	}
 
 // 	if ( state === 1 ){
 // 		console.log("Invalid move");
@@ -103,38 +113,35 @@ function Shape_Z(){
 var grid = new Grid();
 var shapes = new Shape_Square();
 var superimpose = new Superimpose();
-var t = new Shape_T();
+var t = new Shape_Z();
 var canvas = document.getElementById("gridCanvas");
 var ctx = canvas.getContext("2d");
 grid.init_grid();
-
-
-for (var i = 25; i < 300; i+=25){
-	ctx.moveTo(i,0);
-	ctx.lineTo(i,500);
-	ctx.stroke();
+// ctx.fillStyle = "#f76000"
+// ctx.fillRect(0,0,25,25);
+// ctx.fillStyle = "#f00000"
+// ctx.fillRect(0,25,25,25);
+// ctx.fillStyle = "#f00000"
+// ctx.fillRect(25,0,25,25);
+// var color = "2980b9";
+var m = 0;
+var n = 0;
+superimpose.init_super();
+superimpose.copyShape(t);
+move_down(t);
+for ( var i = 0; i < 300; i+=padding){
+	for ( var j = 0; j < 500; j+=padding ){
+		var m = i/padding; //Had to do this because of the Indexing, Yes it is a bitch
+		var n = j/padding;
+		if (superimpose.temp_grid[n][m].state === 1){
+			ctx.fillStyle = "#f39c12";
+		}
+		else{
+			ctx.fillStyle = "#3498db";
+		}
+		ctx.fillRect(i,j,padding,padding);
+	}
 }
-
-for ( var i = 25; i < 500; i+=25 ){
-	ctx.moveTo(0,i);
-	ctx.lineTo(300,i);
-	ctx.stroke();
-}
-
-
-
-
-
-
-
-// for ( var i = 0; i< 5; i++ ){
-// 	for ( var j = 0; j<5; j++ ){
-// 		console.log(grid.dimension[i][j]);
-// 	}
-// 	console.log("\n");
-// }
-
-// console.log(shapes.array_shape[0]);
 
 
 function rotate (shape_object,rotation) {
@@ -224,17 +231,7 @@ function case_3 (temp_shape,shape_object) {
 	}	
 }
 
-// function print(shape_object){
-// 	for ( var i = 0; i < shape_object.size_of; i++ ){
-// 		for ( var j = 0; j < shape_object.size_of; j++ ){
-// 			console.log(shape_object.dimension[i][j]);
-// 		}
-// 		console.log("\n");
-// 	}
-// }
 
-
-// rotate(t,2);
 var current_x = 0;
 var current_y = 0;
 function move_down(shape_object){
@@ -246,20 +243,25 @@ function move_down(shape_object){
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++)
 		{
-			this.temp_grid[i][j] = 0;
-			console.log(i +"\t" +j);
+			superimpose.temp_grid[i][j] = 0;
+			// console.log(i +"\t" +j);
 		}
 	}
+<<<<<<< HEAD
 	console.log("\n");
 	current_x++;		//Update the current positon of the square 
+=======
+	// console.log("\n");
+	current_x++;
+>>>>>>> Generating_Grid
 
 	//Update all the blocks of the shape to their new position
 	for(i= current_x; i <current_x+ shape_object.size_of; i++,m++) 
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++,n++)
 		{
-			this.temp_grid[i][j] = shape_object.dimension[m][n];
-			console.log(m + "\t" + n);
+			superimpose.temp_grid[i][j] = shape_object.dimension[m][n];
+			// console.log(m + "\t" + n);
 		}
 		n=0;
 	}
