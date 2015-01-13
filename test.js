@@ -14,6 +14,28 @@ function Grid(rows,cols) {
 	this.rows = rows;
 	this.cols = cols;
 }
+
+function Shape_Square(){					
+	this.dimension = [[1,1,0],
+					  [1,1,0]
+					  [0,0,0]];
+	this.size_of = 2;
+}
+
+function Shape_T(){
+	this.dimension = [[1,1,1],
+					  [0,1,0],
+					  [0,0,0]];
+	this.size_of = 3;
+}
+
+function Shape_Z(){
+	this.dimension = [[1,1,0],
+					  [0,1,1],
+					  [0,0,0]];
+	this.size_of = 3;
+}
+
 //Decalres every element in the grid
 Grid.prototype.init_grid = function() {
 	for ( var i = 0; i < this.rows; i++ ){
@@ -69,12 +91,28 @@ Superimpose.prototype.copyShape = function(shape_object){
 	for ( var i = 0; i < shape_object.size_of; i++ ){
 		for ( var j = 0; j < shape_object.size_of; j++ ){
 			// if ( this.collisionDetection(shape_object, i, j) ){
-				if ( shape_object.dimension[i][j] === 1){
-					this.temp_grid[i][j].state = 1;
-				}
+			if ( shape_object.dimension[i][j] === 1){
+				this.temp_grid[i][j].state = 1;
 			}
 		}
 	}
+};
+
+Superimpose.prototype.printSuper = function() {
+	for( var i = 0; i < 300; i+=padding ){
+		for ( var j = 0; j < 500; j+=padding ){
+			var m = i/padding; //Had to do this because of the Indexing, Yes it is a bitch
+			var n = j/padding;
+			if ( this.temp_grid[n][m].state === 1 ){
+				ctx.fillStyle = "#f39c12";
+			}
+			else{
+				ctx.fillStyle = "#3498db";
+			}
+			ctx.fillRect(i,j,padding,padding);
+		}
+	}	
+};
 
 // 	if ( state === 1 ){
 // 		console.log("Invalid move");
@@ -89,52 +127,35 @@ Superimpose.prototype.copyShape = function(shape_object){
 // 	return 0;
 // };
 
-function Shape_Square(){					
-	this.dimension = [[1,1,0],
-					  [1,1,0]
-					  [0,0,0]];
-	this.size_of = 2;
-}
 
-function Shape_T(){
-	this.dimension = [[1,1,1],
-					  [0,1,0],
-					  [0,0,0]];
-	this.size_of = 3;
-}
-
-function Shape_Z(){
-	this.dimension = [[1,1,0],
-					  [0,1,1],
-					  [0,0,0]];
-	this.size_of = 3;
-}
 
 var grid = new Grid(rows,cols);
-var shapes = new Shape_Square();
-var superimpose = new Superimpose(rows.cols);
+grid.init_grid();
+var superimpose = new Superimpose(rows,cols);
+superimpose.init_super();
 var t = new Shape_Z();
+
 var canvas = document.getElementById("gridCanvas");
 var ctx = canvas.getContext("2d");
-grid.init_grid();
-var m = 0;
-var n = 0;
-superimpose.init_super();
 superimpose.copyShape(t);
 move_down(t);
-for ( var i = 0; i < 300; i+=padding){
-	for ( var j = 0; j < 500; j+=padding ){
-		var m = i/padding; //Had to do this because of the Indexing, Yes it is a bitch
-		var n = j/padding;
-		if (superimpose.temp_grid[n][m].state === 1){
-			ctx.fillStyle = "#f39c12";
-		}
-		else{
-			ctx.fillStyle = "#3498db";
-		}
-		ctx.fillRect(i,j,padding,padding);
-	}
-}
+
+
+
+superimpose.printSuper();
+// for ( var i = 0; i < 300; i+=padding){
+// 	for ( var j = 0; j < 500; j+=padding ){
+// 		var m = i/padding; //Had to do this because of the Indexing, Yes it is a bitch
+// 		var n = j/padding;
+// 		if (superimpose.temp_grid[n][m].state === 1){
+// 			ctx.fillStyle = "#f39c12";
+// 		}
+// 		else{
+// 			ctx.fillStyle = "#3498db";
+// 		}
+// 		ctx.fillRect(i,j,padding,padding);
+// 	}
+// }
 
 
 function rotate (shape_object,rotation) {
