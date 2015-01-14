@@ -22,6 +22,7 @@ function Shape_Square(){
 					  [1,1,0]
 					  [0,0,0]];
 	this.size_of = 2;
+	this.orientation = 0;
 }
 
 function Shape_T(){
@@ -29,6 +30,7 @@ function Shape_T(){
 					  [0,1,0],
 					  [0,0,0]];
 	this.size_of = 3;
+	this.orientation = 4;
 }
 
 function Shape_Z(){
@@ -36,6 +38,7 @@ function Shape_Z(){
 					  [0,1,1],
 					  [0,0,0]];
 	this.size_of = 3;
+	this.orientation = 2;
 }
 
 function TempShape (size_of) {
@@ -108,21 +111,82 @@ Superimpose.prototype.copyShape = function(shape_object){
 };
 
 Superimpose.prototype.printSuper = function() {
-	for( var i = 0; i < 300; i+=padding ){
-		for ( var j = 0; j < 500; j+=padding ){
+	for( var i = 0; i < canvas_height; i+=padding ){
+		for ( var j = 0; j < canvas_width; j+=padding ){
 			var m = i/padding; //Had to do this because of the Indexing, Yes it is a bitch
 			var n = j/padding;
-			if ( this.temp_grid[n][m].state === 1 ){
+			if ( this.temp_grid[m][n].state === 1 ){
 				ctx.fillStyle = "#f39c12";
 			}
 			else{
 				ctx.fillStyle = "#3498db";
 			}
-			ctx.fillRect(i,j,padding,padding);
+			ctx.fillRect(j,i,padding,padding);
 		}
 	}	
 };
 
+Superimpose.prototype.rotateShape = function(shapeObject,rotationDegree) {
+	var sandboxShape = new TempShape(shapeObject.size_of);
+	if ( rotationDegree >= shapeObject.orientation ){
+		rotationDegree = 0;
+	}
+
+	switch(rotationDegree){
+		case 0:
+			//Orientation : 0 degrees
+			for ( var i = 0; i < shapeObject.size_of; i++ ){
+				for ( var j = 0; j < shapeObject.size_of; j++ ){
+					sandboxShape.dimension[i][j] = shapeObject.dimension[i][j];
+				}
+			}
+		break;
+		case 1:
+			//Orientation : 90 degrees
+			var m = 0;
+			var n = 0;
+			for ( var i = 0; i < shapeObject.size_of; i++,m++ ){
+				for ( var j = shapeObject.size_of - 1,n=0; j >=0; j--,n++ ){
+					sandboxShape.dimension[m][n] = shapeObject.dimension[j][i];
+					// alert(sandboxShape.dimension[m][n]);
+				}
+			}
+		break;
+		case 2:
+			//Orientation : 180 degrees
+			var m = 0;
+			var n = 0;
+			for ( var i = shapeObject.size_of-1; i >= 0; i--,m++ ){
+				for ( var j = shapeObject.size_of - 1,n=0; j >=0; j--,n++ ){
+					sandboxShape.dimension[m][n] = shapeObject.dimension[i][j];
+				}
+			}	
+		break;
+		case 3:
+			var m = 0;
+			var n = 0;
+			for ( var i = shapeObject.size_of-1; i >= 0; i--,m++ ){
+				for ( var j = 0; j < shapeObject.size_of,n=0; j++,n++ ){
+					sandboxShape.dimension[m][n] = shapeObject.dimension[j][i];
+				}
+			}
+		break;
+	}
+	// for ( var i = 0; i < shapeObject.size_of; i ++ ){
+	// 	for ( var j = 0; j < shapeObject.size_of; j++ ){
+	// 		shapeObject.dimension[i][j]=0;
+	// 		shapeObject.dimension[i][j]=sandboxShape.dimension[i][j];
+	// 		// alert(shapeObject.dimension[i][j]);
+	// 	}
+	// }
+	for ( var i = current_x, m = 0; i < current_x + shapeObject.size_of; i ++,m++ ){
+		for ( var j = current_y , n =0; j < current_y + shapeObject.size_of; j++,n++ ){
+			superimpose.temp_grid[i][j].state = 0;
+			superimpose.temp_grid[i][j].state = sandboxShape.dimension[m][n];
+		}
+	}
+
+};
 Grid.prototype.printGrid = function(superimpose_grid) {
 	for ( var i = 0; i < canvas_height; i+=padding ){
 		for ( var j = 0; j < canvas_width; j+=padding ){
@@ -175,8 +239,13 @@ var canvas = document.getElementById("gridCanvas");
 var ctx = canvas.getContext("2d");
 //superimpose.copyShape(t);
 grid.copySuperimpose(superimpose);
+<<<<<<< HEAD
 //superimpose.printSuper();
 //grid.printGrid(superimpose);
+=======
+superimpose.printSuper();
+// grid.printGrid(superimpose);
+>>>>>>> b3e66aea967a11147989d7fecf59b34e0bcb98ef
 // for ( var i = 0; i < 300; i+=padding){
 // 	for ( var j = 0; j < 500; j+=padding ){
 // 		var m = i/padding; //Had to do this because of the Indexing, Yes it is a bitch
@@ -191,124 +260,9 @@ grid.copySuperimpose(superimpose);
 // 	}
 // }
 
-Superimpose.prototype.rotateShape = function(shapeObject,rotationDegree) {
-	var sandboxShape = new TempShape(shapeObject.size_of);
-	if ( rotationDegree === 4 ){
-		rotationDegree = 0;
-	}
 
-	switch(rotationDegree){
-		case 0:
-			//Orientation : 0 degrees
-			for ( var i = 0; i < shapeObject.size_of; i++ ){
-				for ( var j = 0; j < shapeObject.size_of; j++ ){
-					sandboxShape.dimension[i][j] = shapeObject.dimension[i][j];
-				}
-			}
-			break;
-		case 1:
-			var m = 0;
-			var n = 0;
-			for ( var i = 0; i < shapeObject.size_of; i++,m++ ){
-				for ( var j = shapeObject.size_of - 1; j >=0; j--,n++ ){
-					sandboxShape.dimension[m][n] = shapeObject.dimension[j][i];
-				}
-			}
-			break;
-		case 2:
 
-			case_2(temp_shape,shape_object);
-			break;
-		case 3:
-			case_3(temp_shape,shape_object);
-			break;
-	}
 
-};
-
-function rotate (shape_object,rotation) {
-	var temp_shape = new TempShape(shape_object.size_of);
-
-	if ( rotation === 4 ){
-		rotation = 0;
-	}
-
-	// Copy Contents of Shape_object to temp_shape
-	for ( var i = 0; i < shape_object.size_of; i++ ){
-		for (var j = 0; j < shape_object.size_of; j++ ){
-			temp_shape.dimension[i][j] = shape_object.dimension[i][j];
-		}
-	}
-	//erase object Shape_object
-	for ( var i = 0; i < shape_object.size_of; i++ ){
-		for (var j = 0; j < shape_object.size_of; j++ ){
-			shape_object.dimension[i][j] = 0;
-		}
-	}
-
-	switch(rotation){
-		case 0:
-			case_0(temp_shape,shape_object);
-			break;
-		case 1:
-
-			case_1(temp_shape,shape_object);
-			break;
-		case 2:
-
-			case_2(temp_shape,shape_object);
-			break;
-		case 3:
-			case_3(temp_shape,shape_object);
-			break;
-		default:
-			window.alert("Problem is here");
-			break;
-	}
-
-}
-
-function case_0 (temp_shape,shape_object) {
-	for ( var i = 0; i < shape_object.size_of; i++ ){
-		for ( var j = 0; j < shape_object.size_of; j++ ){
-			shape_object.dimension[i][j] = temp_shape.dimension[i][j];
-		}
-	}
-}
-
-function case_1 (temp_shape,shape_object) {
-	var m = 0;
-	var n = 0;
-	for ( var i = 0; i < shape_object.size_of; i++,m++ ){
-		for ( var j = shape_object.size_of - 1; j >=0; j--,n++ ){
-			shape_object.dimension[m][n] = temp_shape.dimension[j][i];
-		}
-		
-	}
-}
-
-function case_2 (temp_shape,shape_object) {
-	window.alert("Problem is here");
-	var m = 0;
-	var n = 0;
-	for ( var i = shape_object.size_of-1; i >= 0; i--,m++ ){
-		for ( var j = shape_object.size_of - 1; j >=0; j--,n++ ){
-			shape_object.dimension[m][n] = temp_shape.dimension[i][j];
-		}
-		
-	}	
-}
-
-function case_3 (temp_shape,shape_object) {
-	var m = 0;
-	var n = 0;
-	for ( var i = shape_object.size_of-1; i >= 0; i--,m++ ){
-		for ( var j = 0; j < shape_object.size_of; j++,n++ ){
-			shape_object.dimension[m][n] = temp_shape.dimension[j][i];
-		}
-		console.log("\n");
-	}	
-}
 
 
 var current_x = 0;
