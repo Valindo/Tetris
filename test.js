@@ -238,13 +238,6 @@ var canvas = document.getElementById("gridCanvas");
 var ctx = canvas.getContext("2d");
 //superimpose.copyShape(t);
 grid.copySuperimpose(superimpose);
-<<<<<<< HEAD
-//superimpose.printSuper();
-//grid.printGrid(superimpose);
-=======
-superimpose.printSuper();
-// grid.printGrid(superimpose);
->>>>>>> b3e66aea967a11147989d7fecf59b34e0bcb98ef
 // for ( var i = 0; i < 300; i+=padding){
 // 	for ( var j = 0; j < 500; j+=padding ){
 // 		var m = i/padding; //Had to do this because of the Indexing, Yes it is a bitch
