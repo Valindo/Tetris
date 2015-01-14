@@ -173,10 +173,10 @@ var t = new Shape_Z();
 
 var canvas = document.getElementById("gridCanvas");
 var ctx = canvas.getContext("2d");
-superimpose.copyShape(t);
+//superimpose.copyShape(t);
 grid.copySuperimpose(superimpose);
-// superimpose.printSuper();
-grid.printGrid(superimpose);
+//superimpose.printSuper();
+//grid.printGrid(superimpose);
 // for ( var i = 0; i < 300; i+=padding){
 // 	for ( var j = 0; j < 500; j+=padding ){
 // 		var m = i/padding; //Had to do this because of the Indexing, Yes it is a bitch
@@ -322,21 +322,20 @@ function move_down(shape_object){
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++)
 		{
-			superimpose.temp_grid[i][j] = 0;
+			superimpose.temp_grid[i][j].state = 0;
 			// console.log(i +"\t" +j);
 		}
 	}
-
+	alert("cleared");
 	// console.log("\n");
-	current_x++;
+	current_x+=1;
 
 	//Update all the blocks of the shape to their new position
 	for(i= current_x; i <current_x+ shape_object.size_of; i++,m++) 
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++,n++)
 		{
-			superimpose.temp_grid[i][j] = shape_object.dimension[m][n];
-			// console.log(m + "\t" + n);
+			superimpose.temp_grid[i][j].state = shape_object.dimension[m][n];
 		}
 		n=0;
 	}
@@ -350,19 +349,20 @@ function move_left(shape_object){
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++)
 		{
-			this.temp_grid[i][j] = 0;
+			superimpose.temp_grid[i][j].state = 0;
 			//console.log(i +"\t" +j);
 		}
 	}
 
 current_y--;		//Update the current positon of the square 
+alert("cleared");
 
 //Update all the blocks of the shape to their new position
 	for(i= current_x; i <current_x+ shape_object.size_of; i++,m++) 
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++,n++)
 		{
-			this.temp_grid[i][j] = shape_object.dimension[m][n];
+			superimpose.temp_grid[i][j].state = shape_object.dimension[m][n];
 			//console.log(i + "\t" + j);
 		}
 		n=0;
@@ -377,19 +377,19 @@ function move_right(shape_object){
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++)
 		{
-			this.temp_grid[i][j] = 0;
+			superimpose.temp_grid[i][j].state = 0;
 			//console.log(i +"\t" +j);
 		}
 	}
 
 current_y++;		//Update the current positon of the square 
-
+alert("cleared");
 //Update all the blocks of the shape to their new position
 	for(i= current_x; i <current_x+ shape_object.size_of; i++,m++) 
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++,n++)
 		{
-			this.temp_grid[i][j] = shape_object.dimension[m][n];
+			superimpose.temp_grid[i][j].state = shape_object.dimension[m][n];
 			//console.log(i + "\t" + j);
 		}
 		n=0;
