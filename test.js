@@ -213,6 +213,84 @@ Grid.prototype.copySuperimpose = function(super_object) {
 	}
 };
 
+Superimpose.prototype.collisionDetection = function(shapeObject,direction) {
+	switch ( direction ){
+		case "down":
+			var j = current_x + 2;
+			for ( var i = current_y; i <= current_y + 2; ++i ){
+				if ( this.temp_grid[j+1][i].state === 1 && shapeObject.dimension[j][i] === 1 ){
+					return 1;				
+				}
+			}
+			break;
+		case "right":
+			var j = current_y+2;
+			for ( var i = current_x; i <= current_x + 2; ++i ){
+				if ( this.temp_grid[i][j+1].state === 1 && shapeObject.dimension[i][j]){
+					return 1;
+				}
+			}
+			break;
+		case "left":
+			var j = current_y;
+			for ( var i = current_x; i <= current_x+2; ++i ){
+				if ( this.temp_grid[i][j-1].state === 1 && shapeObject.dimension[i][j]){
+					return 1;
+				}
+			}
+			break;
+	}
+	return 0;
+};
+
+Superimpose.prototype.outOfBounds = function(shapeObject,direction) {
+	switch(direction){
+		case "down":
+			var check = current_x + 3;
+			if ( check > rows ){
+				return 1;
+			}
+			break;
+		case "right":
+			var check = current_y + 3;
+			if ( check > cols ){
+				var condition = 0;
+				for ( i = current_x; i < current_x + 2; ++i ){
+					if ( shapeObject.dimension[i][check-1] == 0 ){
+						this.shapeManupilator(shapeObject,direction);
+						return 0;
+					}
+				}
+				return 1;
+			}
+			break;
+		case "left":
+			var check = current_y - 1;
+			if ( check < 0 ){
+				var condition = 0;
+				for ( i = current_x; i < current_x + 2; ++i ){
+					if ( shapeObject.dimension[i][check+1] ){
+						this.shapeManupilator(shapeObject,direction);
+						return 0;
+					}
+				}
+				return 1;
+			}
+			break;
+	}
+	return 0;
+};
+
+Superimpose.prototype.shapeManupilator = function(shapeObject,direction) {
+	switch(direction){
+		case "down":
+			break;
+		case "right":
+			break;
+		case "left":
+			break;
+	}
+};
 // 	if ( state === 1 ){
 // 		console.log("Invalid move");
 // 	}
