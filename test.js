@@ -22,6 +22,7 @@ function Shape_Square(){
 					  [1,1,0]
 					  [0,0,0]];
 	this.size_of = 2;
+	this.orientation = 0;
 }
 
 function Shape_T(){
@@ -29,6 +30,7 @@ function Shape_T(){
 					  [0,1,0],
 					  [0,0,0]];
 	this.size_of = 3;
+	this.orientation = 4;
 }
 
 function Shape_Z(){
@@ -36,6 +38,7 @@ function Shape_Z(){
 					  [0,1,1],
 					  [0,0,0]];
 	this.size_of = 3;
+	this.orientation = 2;
 }
 
 function TempShape (size_of) {
@@ -123,6 +126,67 @@ Superimpose.prototype.printSuper = function() {
 	}	
 };
 
+Superimpose.prototype.rotateShape = function(shapeObject,rotationDegree) {
+	var sandboxShape = new TempShape(shapeObject.size_of);
+	if ( rotationDegree >= shapeObject.orientation ){
+		rotationDegree = 0;
+	}
+
+	switch(rotationDegree){
+		case 0:
+			//Orientation : 0 degrees
+			for ( var i = 0; i < shapeObject.size_of; i++ ){
+				for ( var j = 0; j < shapeObject.size_of; j++ ){
+					sandboxShape.dimension[i][j] = shapeObject.dimension[i][j];
+				}
+			}
+		break;
+		case 1:
+			//Orientation : 90 degrees
+			var m = 0;
+			var n = 0;
+			for ( var i = 0; i < shapeObject.size_of; i++,m++ ){
+				for ( var j = shapeObject.size_of - 1,n=0; j >=0; j--,n++ ){
+					sandboxShape.dimension[m][n] = shapeObject.dimension[j][i];
+					// alert(sandboxShape.dimension[m][n]);
+				}
+			}
+		break;
+		case 2:
+			//Orientation : 180 degrees
+			var m = 0;
+			var n = 0;
+			for ( var i = shapeObject.size_of-1; i >= 0; i--,m++ ){
+				for ( var j = shapeObject.size_of - 1,n=0; j >=0; j--,n++ ){
+					sandboxShape.dimension[m][n] = shapeObject.dimension[i][j];
+				}
+			}	
+		break;
+		case 3:
+			var m = 0;
+			var n = 0;
+			for ( var i = shapeObject.size_of-1; i >= 0; i--,m++ ){
+				for ( var j = 0; j < shapeObject.size_of,n=0; j++,n++ ){
+					sandboxShape.dimension[m][n] = shapeObject.dimension[j][i];
+				}
+			}
+		break;
+	}
+	// for ( var i = 0; i < shapeObject.size_of; i ++ ){
+	// 	for ( var j = 0; j < shapeObject.size_of; j++ ){
+	// 		shapeObject.dimension[i][j]=0;
+	// 		shapeObject.dimension[i][j]=sandboxShape.dimension[i][j];
+	// 		// alert(shapeObject.dimension[i][j]);
+	// 	}
+	// }
+	for ( var i = current_x, m = 0; i < current_x + shapeObject.size_of; i ++,m++ ){
+		for ( var j = current_y , n =0; j < current_y + shapeObject.size_of; j++,n++ ){
+			superimpose.temp_grid[i][j].state = 0;
+			superimpose.temp_grid[i][j].state = sandboxShape.dimension[m][n];
+		}
+	}
+
+};
 Grid.prototype.printGrid = function(superimpose_grid) {
 	for ( var i = 0; i < canvas_height; i+=padding ){
 		for ( var j = 0; j < canvas_width; j+=padding ){
@@ -191,53 +255,7 @@ superimpose.printSuper();
 // 	}
 // }
 
-Superimpose.prototype.rotateShape = function(shapeObject,rotationDegree) {
-	var sandboxShape = new TempShape(shapeObject.size_of);
-	if ( rotationDegree === 4 ){
-		rotationDegree = 0;
-	}
 
-	switch(rotationDegree){
-		case 0:
-			//Orientation : 0 degrees
-			for ( var i = 0; i < shapeObject.size_of; i++ ){
-				for ( var j = 0; j < shapeObject.size_of; j++ ){
-					sandboxShape.dimension[i][j] = shapeObject.dimension[i][j];
-				}
-			}
-			break;
-		case 1:
-			//Orientation : 90 degrees
-			var m = 0;
-			var n = 0;
-			for ( var i = 0; i < shapeObject.size_of; i++,m++ ){
-				for ( var j = shapeObject.size_of - 1; j >=0; j--,n++ ){
-					sandboxShape.dimension[m][n] = shapeObject.dimension[j][i];
-				}
-			}
-			break;
-		case 2:
-			//Orientation : 180 degrees
-			var m = 0;
-			var n = 0;
-			for ( var i = shape_object.size_of-1; i >= 0; i--,m++ ){
-				for ( var j = shape_object.size_of - 1; j >=0; j--,n++ ){
-					sandboxShape.dimension[m][n] = shapeObject.dimension[i][j];
-				}
-			}	
-			break;
-		case 3:
-			var m = 0;
-			var n = 0;
-			for ( var i = shape_object.size_of-1; i >= 0; i--,m++ ){
-				for ( var j = 0; j < shape_object.size_of; j++,n++ ){
-					sandboxShape.dimension[m][n] = shapeObject.dimension[j][i];
-				}
-			}
-			break;
-	}
-
-};
 
 
 
