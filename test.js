@@ -108,17 +108,17 @@ Superimpose.prototype.copyShape = function(shape_object){
 };
 
 Superimpose.prototype.printSuper = function() {
-	for( var i = 0; i < 300; i+=padding ){
-		for ( var j = 0; j < 500; j+=padding ){
+	for( var i = 0; i < canvas_height; i+=padding ){
+		for ( var j = 0; j < canvas_width; j+=padding ){
 			var m = i/padding; //Had to do this because of the Indexing, Yes it is a bitch
 			var n = j/padding;
-			if ( this.temp_grid[n][m].state === 1 ){
+			if ( this.temp_grid[m][n].state === 1 ){
 				ctx.fillStyle = "#f39c12";
 			}
 			else{
 				ctx.fillStyle = "#3498db";
 			}
-			ctx.fillRect(i,j,padding,padding);
+			ctx.fillRect(j,i,padding,padding);
 		}
 	}	
 };
@@ -175,8 +175,8 @@ var canvas = document.getElementById("gridCanvas");
 var ctx = canvas.getContext("2d");
 superimpose.copyShape(t);
 grid.copySuperimpose(superimpose);
-// superimpose.printSuper();
-grid.printGrid(superimpose);
+superimpose.printSuper();
+// grid.printGrid(superimpose);
 // for ( var i = 0; i < 300; i+=padding){
 // 	for ( var j = 0; j < 500; j+=padding ){
 // 		var m = i/padding; //Had to do this because of the Indexing, Yes it is a bitch
@@ -207,6 +207,7 @@ Superimpose.prototype.rotateShape = function(shapeObject,rotationDegree) {
 			}
 			break;
 		case 1:
+			//Orientation : 90 degrees
 			var m = 0;
 			var n = 0;
 			for ( var i = 0; i < shapeObject.size_of; i++,m++ ){
@@ -216,99 +217,29 @@ Superimpose.prototype.rotateShape = function(shapeObject,rotationDegree) {
 			}
 			break;
 		case 2:
-
-			case_2(temp_shape,shape_object);
+			//Orientation : 180 degrees
+			var m = 0;
+			var n = 0;
+			for ( var i = shape_object.size_of-1; i >= 0; i--,m++ ){
+				for ( var j = shape_object.size_of - 1; j >=0; j--,n++ ){
+					sandboxShape.dimension[m][n] = shapeObject.dimension[i][j];
+				}
+			}	
 			break;
 		case 3:
-			case_3(temp_shape,shape_object);
+			var m = 0;
+			var n = 0;
+			for ( var i = shape_object.size_of-1; i >= 0; i--,m++ ){
+				for ( var j = 0; j < shape_object.size_of; j++,n++ ){
+					sandboxShape.dimension[m][n] = shapeObject.dimension[j][i];
+				}
+			}
 			break;
 	}
 
 };
 
-function rotate (shape_object,rotation) {
-	var temp_shape = new TempShape(shape_object.size_of);
 
-	if ( rotation === 4 ){
-		rotation = 0;
-	}
-
-	// Copy Contents of Shape_object to temp_shape
-	for ( var i = 0; i < shape_object.size_of; i++ ){
-		for (var j = 0; j < shape_object.size_of; j++ ){
-			temp_shape.dimension[i][j] = shape_object.dimension[i][j];
-		}
-	}
-	//erase object Shape_object
-	for ( var i = 0; i < shape_object.size_of; i++ ){
-		for (var j = 0; j < shape_object.size_of; j++ ){
-			shape_object.dimension[i][j] = 0;
-		}
-	}
-
-	switch(rotation){
-		case 0:
-			case_0(temp_shape,shape_object);
-			break;
-		case 1:
-
-			case_1(temp_shape,shape_object);
-			break;
-		case 2:
-
-			case_2(temp_shape,shape_object);
-			break;
-		case 3:
-			case_3(temp_shape,shape_object);
-			break;
-		default:
-			window.alert("Problem is here");
-			break;
-	}
-
-}
-
-function case_0 (temp_shape,shape_object) {
-	for ( var i = 0; i < shape_object.size_of; i++ ){
-		for ( var j = 0; j < shape_object.size_of; j++ ){
-			shape_object.dimension[i][j] = temp_shape.dimension[i][j];
-		}
-	}
-}
-
-function case_1 (temp_shape,shape_object) {
-	var m = 0;
-	var n = 0;
-	for ( var i = 0; i < shape_object.size_of; i++,m++ ){
-		for ( var j = shape_object.size_of - 1; j >=0; j--,n++ ){
-			shape_object.dimension[m][n] = temp_shape.dimension[j][i];
-		}
-		
-	}
-}
-
-function case_2 (temp_shape,shape_object) {
-	window.alert("Problem is here");
-	var m = 0;
-	var n = 0;
-	for ( var i = shape_object.size_of-1; i >= 0; i--,m++ ){
-		for ( var j = shape_object.size_of - 1; j >=0; j--,n++ ){
-			shape_object.dimension[m][n] = temp_shape.dimension[i][j];
-		}
-		
-	}	
-}
-
-function case_3 (temp_shape,shape_object) {
-	var m = 0;
-	var n = 0;
-	for ( var i = shape_object.size_of-1; i >= 0; i--,m++ ){
-		for ( var j = 0; j < shape_object.size_of; j++,n++ ){
-			shape_object.dimension[m][n] = temp_shape.dimension[j][i];
-		}
-		console.log("\n");
-	}	
-}
 
 
 var current_x = 0;
