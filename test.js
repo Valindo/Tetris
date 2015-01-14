@@ -2,6 +2,8 @@
 var rows = 20;
 var cols = 12;
 var padding = 25;
+var canvas_width = 300;
+var canvas_height = 500;
 //Every individual block in the grid
 function Blocks (pos_x,pos_y) {
 	this.pos_x = pos_x;
@@ -34,6 +36,13 @@ function Shape_Z(){
 					  [0,1,1],
 					  [0,0,0]];
 	this.size_of = 3;
+}
+
+function TempShape (size_of) {
+	this.dimension = [[0,0,0],
+					  [0,0,0],
+					  [0,0,0]];
+	this.size_of = size_of;
 }
 
 //Decalres every element in the grid
@@ -114,6 +123,33 @@ Superimpose.prototype.printSuper = function() {
 	}	
 };
 
+Grid.prototype.printGrid = function(superimpose_grid) {
+	for ( var i = 0; i < canvas_height; i+=padding ){
+		for ( var j = 0; j < canvas_width; j+=padding ){
+			var m = i/padding;
+			var n = j/padding;
+			// Debugginf purposed
+			if ( this.dimension[m][n].state === 1){
+				ctx.fillStyle = "#f39c12";
+			}
+			else{
+				ctx.fillStyle = "#3498db";
+			}
+			ctx.fillRect(j,i,padding,padding);
+		}
+	}
+};
+
+Grid.prototype.copySuperimpose = function(super_object) {
+	for ( var i = 0; i < rows; ++i ){
+		for ( var j = 0; j < cols; ++j ){
+			if ( superimpose.temp_grid[i][j].state === 1 ){
+				this.dimension[i][j].state = superimpose.temp_grid[i][j].state;
+			}
+		}
+	}
+};
+
 // 	if ( state === 1 ){
 // 		console.log("Invalid move");
 // 	}
@@ -138,11 +174,9 @@ var t = new Shape_Z();
 var canvas = document.getElementById("gridCanvas");
 var ctx = canvas.getContext("2d");
 superimpose.copyShape(t);
-move_down(t);
-
-
-
-superimpose.printSuper();
+grid.copySuperimpose(superimpose);
+// superimpose.printSuper();
+grid.printGrid(superimpose);
 // for ( var i = 0; i < 300; i+=padding){
 // 	for ( var j = 0; j < 500; j+=padding ){
 // 		var m = i/padding; //Had to do this because of the Indexing, Yes it is a bitch
@@ -157,16 +191,60 @@ superimpose.printSuper();
 // 	}
 // }
 
+Superimpose.prototype.rotateShape = function(shapeObject,rotationDegree) {
+	var sandboxShape = new TempShape(shapeObject.size_of);
+	if ( rotationDegree === 4 ){
+		rotationDegree = 0;
+	}
+
+	switch(rotationDegree){
+		case 0:
+			//Orientation : 0 degrees
+			for ( var i = 0; i < shapeObject.size_of; i++ ){
+				for ( var j = 0; j < shapeObject.size_of; j++ ){
+					sandboxShape.dimension[i][j] = shapeObject.dimension[i][j];
+				}
+			}
+			break;
+		case 1:
+			var m = 0;
+			var n = 0;
+			for ( var i = 0; i < shapeObject.size_of; i++,m++ ){
+				for ( var j = shapeObject.size_of - 1; j >=0; j--,n++ ){
+					sandboxShape.dimension[m][n] = shapeObject.dimension[j][i];
+				}
+			}
+			break;
+		case 2:
+
+			case_2(temp_shape,shape_object);
+			break;
+		case 3:
+			case_3(temp_shape,shape_object);
+			break;
+	}
+
+};
 
 function rotate (shape_object,rotation) {
-	window.alert("Problem is here");
-	var temp_shape = shape_object;
+	var temp_shape = new TempShape(shape_object.size_of);
 
 	if ( rotation === 4 ){
 		rotation = 0;
 	}
 
-	// erase_object(shape_object);
+	// Copy Contents of Shape_object to temp_shape
+	for ( var i = 0; i < shape_object.size_of; i++ ){
+		for (var j = 0; j < shape_object.size_of; j++ ){
+			temp_shape.dimension[i][j] = shape_object.dimension[i][j];
+		}
+	}
+	//erase object Shape_object
+	for ( var i = 0; i < shape_object.size_of; i++ ){
+		for (var j = 0; j < shape_object.size_of; j++ ){
+			shape_object.dimension[i][j] = 0;
+		}
+	}
 
 	switch(rotation){
 		case 0:
@@ -190,19 +268,10 @@ function rotate (shape_object,rotation) {
 
 }
 
-function erase_object(shape_object){
-	for ( var i = 0; i < shape_object.size_of; i++ ){
-		for ( var j = 0; j < shape_object.size_of; j++ ){
-			shape_object.dimension[i][j] = 0;
-		}
-	}
-	return;
-}
-
 function case_0 (temp_shape,shape_object) {
 	for ( var i = 0; i < shape_object.size_of; i++ ){
 		for ( var j = 0; j < shape_object.size_of; j++ ){
-			shape_object.dimension[i][j];// = temp_shape.dimension[i][j]
+			shape_object.dimension[i][j] = temp_shape.dimension[i][j];
 		}
 	}
 }
@@ -212,10 +281,9 @@ function case_1 (temp_shape,shape_object) {
 	var n = 0;
 	for ( var i = 0; i < shape_object.size_of; i++,m++ ){
 		for ( var j = shape_object.size_of - 1; j >=0; j--,n++ ){
-			// shape_object.dimension[m][n] = 
-			window.alert(temp_shape.dimension[j][i]);
+			shape_object.dimension[m][n] = temp_shape.dimension[j][i];
 		}
-		console.log("\n");
+		
 	}
 }
 
@@ -225,12 +293,10 @@ function case_2 (temp_shape,shape_object) {
 	var n = 0;
 	for ( var i = shape_object.size_of-1; i >= 0; i--,m++ ){
 		for ( var j = shape_object.size_of - 1; j >=0; j--,n++ ){
-			//shape_object.dimension[m][n] = 
-			window.alert(temp_shape.dimension[i][j]);
+			shape_object.dimension[m][n] = temp_shape.dimension[i][j];
 		}
-		console.log("\n");
+		
 	}	
-	// print(shapes);
 }
 
 function case_3 (temp_shape,shape_object) {
@@ -238,8 +304,7 @@ function case_3 (temp_shape,shape_object) {
 	var n = 0;
 	for ( var i = shape_object.size_of-1; i >= 0; i--,m++ ){
 		for ( var j = 0; j < shape_object.size_of; j++,n++ ){
-			//shape_object.dimension[m][n] = 
-			window.alert(temp_shape.dimension[j][i]);
+			shape_object.dimension[m][n] = temp_shape.dimension[j][i];
 		}
 		console.log("\n");
 	}	
