@@ -166,19 +166,18 @@ Superimpose.prototype.rotateShape = function(shapeObject,rotationDegree) {
 			var m = 0;
 			var n = 0;
 			for ( var i = shapeObject.size_of-1; i >= 0; i--,m++ ){
-				for ( var j = 0; j < shapeObject.size_of,n=0; j++,n++ ){
+				for ( var j = 0,n=0; j < shapeObject.size_of; j++,n++ ){
 					sandboxShape.dimension[m][n] = shapeObject.dimension[j][i];
 				}
 			}
 		break;
 	}
-	// for ( var i = 0; i < shapeObject.size_of; i ++ ){
-	// 	for ( var j = 0; j < shapeObject.size_of; j++ ){
-	// 		shapeObject.dimension[i][j]=0;
-	// 		shapeObject.dimension[i][j]=sandboxShape.dimension[i][j];
-	// 		// alert(shapeObject.dimension[i][j]);
-	// 	}
-	// }
+	for ( var i = 0; i < shapeObject.size_of; i ++ ){
+		for ( var j = 0; j < shapeObject.size_of; j++ ){
+			shapeObject.dimension[i][j]=0;
+			shapeObject.dimension[i][j]=sandboxShape.dimension[i][j];
+		}
+	}
 	for ( var i = current_x, m = 0; i < current_x + shapeObject.size_of; i ++,m++ ){
 		for ( var j = current_y , n =0; j < current_y + shapeObject.size_of; j++,n++ ){
 			superimpose.temp_grid[i][j].state = 0;
@@ -233,7 +232,7 @@ var grid = new Grid(rows,cols);
 grid.init_grid();
 var superimpose = new Superimpose(rows,cols);
 superimpose.init_super();
-var t = new Shape_Z();
+var t = new Shape_T();
 
 var canvas = document.getElementById("gridCanvas");
 var ctx = canvas.getContext("2d");
