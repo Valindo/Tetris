@@ -12,6 +12,10 @@ superimpose.temp_grid[8][0].state = 1;
 // superimpose.temp_grid[7][8].state = 1;
 
 superimpose.printSuper();
-superimpose.rotateShape(t,1);
+// superimpose.rotateShape(t,1);
 move_right(t);
+superimpose.printSuper();
+move_left(t);
+superimpose.printSuper();
+move_left(t);
 superimpose.printSuper();
