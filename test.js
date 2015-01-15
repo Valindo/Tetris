@@ -22,6 +22,8 @@ function Shape_Square(){
 					  [1,1,0]
 					  [0,0,0]];
 	this.size_of = 2;
+	this.rowSize = 2;
+	this.colSize = 2;
 	this.orientation = 0;
 }
 
@@ -30,6 +32,8 @@ function Shape_T(){
 					  [0,1,0],
 					  [0,0,0]];
 	this.size_of = 3;
+	this.rowSize = 2;
+	this.colSize = 3;
 	this.orientation = 4;
 }
 
@@ -38,14 +42,18 @@ function Shape_Z(){
 					  [0,1,1],
 					  [0,0,0]];
 	this.size_of = 3;
+	this.rowSize = 2;
+	this.colSize = 3;
 	this.orientation = 2;
 }
 
-function TempShape (size_of) {
+function TempShape (size_of,rowSize,colSize) {
 	this.dimension = [[0,0,0],
 					  [0,0,0],
 					  [0,0,0]];
 	this.size_of = size_of;
+	this.rowSize = rowSize;
+	this.colSize = colSize;
 }
 
 //Decalres every element in the grid
@@ -100,8 +108,8 @@ Superimpose.prototype.newShape = function(shape_object) {
 
 Superimpose.prototype.copyShape = function(shape_object){
 	var state = 0;
-	for ( var i = 0; i < shape_object.size_of; i++ ){
-		for ( var j = 0; j < shape_object.size_of; j++ ){
+	for ( var i = 0; i < shape_object.rowSize; i++ ){
+		for ( var j = 0; j < shape_object.colSize; j++ ){
 			// if ( this.collisionDetection(shape_object, i, j) ){
 			if ( shape_object.dimension[i][j] === 1){
 				this.temp_grid[i][j].state = 1;
@@ -216,17 +224,47 @@ Grid.prototype.copySuperimpose = function(super_object) {
 Superimpose.prototype.collisionDetection = function(shapeObject,direction) {
 	switch ( direction ){
 		case "down":
-			var m=2;
-			var n=0;
-			var j = current_x + 2;
-			for ( var i = current_y; i <= current_y + 2; ++i, n++ ){
-				if ( (this.temp_grid[j+1][i].state === 1 && shapeObject.dimension[m][n] === 1) ){
-					return 1;				
+			// var m=2;
+			// var n=0;
+			// var j = current_x + 2;
+			// for ( var i = current_y; i <= current_y + 2; ++i, n++ ){
+			// 	console.log(j);
+			// 	console.log(i);
+			// 	if ( (this.temp_grid[j+1][i].state === 1 && shapeObject.dimension[m][n] === 1) ){
+			// 		return 1;				
+			// 	}
+			// 	else if (this.temp_grid[j][i].state === 1 && shapeObject.dimension[m-1][n] ===1) {
+			// 		return 1;
+			// 	} 
+			// }
+
+			alert("It reaches here");
+			for ( var i = 0,m = current_x; i < 3 && m < current_x+3 ; i++,m++ ){
+				console.log(i);
+				console.log(m);
+				var nextBlockShape = i + 1;
+				var nextBlockGrid = m + 1;
+				for ( var j = 0,n = current_y; j < 3 && n < current_y+3; j++,n++ ){
+					console.log(j);
+					console.log(n);
+					if ( nextBlockShape >= 3  &&  nextBlockGrid >= current_x+3 ){
+						if ( shapeObject.dimension[i][j] === 1 && this.temp_grid[nextBlockGrid][n].state === 1){
+							console.log("HEYYYYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+							return 1;
+						}
+					}
+					else{
+						if ( shapeObject.dimension[i][j] === 1 && shapeObject.dimension[nextBlockShape][j] === 0 ){
+							if ( this.temp_grid[nextBlockGrid][n].state===1 ){
+								console.log("HEYYYYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+								return 1;
+							}
+						}
+					}
 				}
-				else if (this.temp_grid[j][i].state === 1 && shapeObject.dimension[m-1][n] ===1) {
-					return 1;
-				} 
 			}
+
+
 			break;
 		case "right":
 			var m=0;
@@ -256,7 +294,11 @@ Superimpose.prototype.outOfBounds = function(shapeObject,direction) {
 	switch(direction){
 		case "down":
 			var check = current_x + 3;
-			if ( check > rows ){
+			if ( check >= rows ){
+				if ( shapeObject.dimension[2][0]===0 && shapeObject.dimension[2][1]===0 && shapeObject.dimension[2][2]===0){
+					this.shapeManupilator(shapeObject,direction);
+				}
+				alert("Fuck");
 				return 1;
 			}
 			break;
@@ -291,8 +333,20 @@ Superimpose.prototype.outOfBounds = function(shapeObject,direction) {
 };
 
 Superimpose.prototype.shapeManupilator = function(shapeObject,direction) {
+	var sandboxShape = new TempShape(shapeObject.size_of);
 	switch(direction){
 		case "down":
+			for ( i = 1; i < 3; i++ ){
+				for ( j = 0; j < 3; j++ ){
+					sandboxShape.dimension[i][j] = shapeObject.dimension[i-1][j];
+				}
+			}
+			for ( i = 0; i < 3; i++ ){
+				for ( j = 0; j < 3; j++ ){
+					shapeObject.dimension[i][j];
+					shapeObject.dimension[i][j] = sandboxShape.dimension[i][j];
+				}
+			}
 			break;
 		case "right":
 			break;
@@ -319,7 +373,7 @@ var grid = new Grid(rows,cols);
 grid.init_grid();
 var superimpose = new Superimpose(rows,cols);
 superimpose.init_super();
-var t = new Shape_T();
+var t = new Shape_Z();
 
 var canvas = document.getElementById("gridCanvas");
 var ctx = canvas.getContext("2d");
