@@ -1,5 +1,5 @@
 //Testing Move functions
-// var shapes = new Shape_T();
+// var t = new Shape_T();
 
 
 // function display() {
@@ -8,84 +8,76 @@
 
 superimpose.copyShape(t);
 // superimpose.temp_grid[6][1].state = 1;
-// superimpose.temp_grid[8][2].state = 1;
+superimpose.temp_grid[8][0].state = 1;
 superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_right(shapes);
-// superimpose.printSuper();
-// move_right(shapes);
-// superimpose.printSuper();
-// move_right(shapes);
-// superimpose.printSuper();
-
-// move_down(shapes);
-// superimpose.printSuper();
-
-// move_down(shapes);
-// superimpose.printSuper();
-
-
-// superimpose.printSuper();
-// move_left(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// superimpose.printSuper();
-// move_left(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-
-// move_right(shapes);
-// superimpose.printSuper();
-
-// move_right(shapes);
-// superimpose.printSuper();
+superimpose.rotateShape(t,1);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+superimpose.rotateShape(t,1);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+superimpose.rotateShape(t,1);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+superimpose.rotateShape(t,1);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
 
 
-// move_down(shapes);
-// superimpose.printSuper();
+
+superimpose.copyShape(t);
+superimpose.printSuper();
+
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
+move_down(t);
+superimpose.printSuper();
 
 
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
-// move_down(shapes);
-// superimpose.printSuper();
 
-var a = 10, b =50;
-alert("Value of a :"+a+" Value of b: "+b);
-b = [a,a=b][0];
-alert("Swap Value of a :"+a+" swap Value of b: "+b);
