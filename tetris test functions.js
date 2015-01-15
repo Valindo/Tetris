@@ -7,28 +7,51 @@ var shapes = new Shape_T();
 // }
 
 superimpose.copyShape(shapes);
+superimpose.temp_grid[8][2].state = 1;
 superimpose.printSuper();
 move_down(shapes);
 superimpose.printSuper();
-move_right(shapes);
-superimpose.printSuper();
-move_right(shapes);
-superimpose.printSuper();
-move_right(shapes);
+// move_right(shapes);
+// superimpose.printSuper();
+// move_right(shapes);
+// superimpose.printSuper();
+// move_right(shapes);
+// superimpose.printSuper();
+
+move_down(shapes);
 superimpose.printSuper();
 
 move_down(shapes);
 superimpose.printSuper();
-superimpose.printSuper();
-move_left(shapes);
+
+
+// superimpose.printSuper();
+// move_left(shapes);
+// superimpose.printSuper();
+// move_down(shapes);
+// superimpose.printSuper();
+// superimpose.printSuper();
+// move_left(shapes);
+// superimpose.printSuper();
+move_down(shapes);
 superimpose.printSuper();
 move_down(shapes);
 superimpose.printSuper();
-superimpose.printSuper();
-move_left(shapes);
-superimpose.printSuper();
 move_down(shapes);
 superimpose.printSuper();
+
+// move_right(shapes);
+// superimpose.printSuper();
+
+move_right(shapes);
 superimpose.printSuper();
-move_left(shapes);
+
+
+move_down(shapes);
+superimpose.printSuper();
+
+
+move_down(shapes);
+superimpose.printSuper();
+move_down(shapes);
 superimpose.printSuper();

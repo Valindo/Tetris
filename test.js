@@ -216,25 +216,34 @@ Grid.prototype.copySuperimpose = function(super_object) {
 Superimpose.prototype.collisionDetection = function(shapeObject,direction) {
 	switch ( direction ){
 		case "down":
+			var m=2;
+			var n=0;
 			var j = current_x + 2;
-			for ( var i = current_y; i <= current_y + 2; ++i ){
-				if ( this.temp_grid[j+1][i].state === 1 && shapeObject.dimension[j][i] === 1 ){
+			for ( var i = current_y; i <= current_y + 2; ++i, n++ ){
+				if ( (this.temp_grid[j+1][i].state === 1 && shapeObject.dimension[m][n] === 1) ){
 					return 1;				
 				}
+				else if (this.temp_grid[j][i].state === 1 && shapeObject.dimension[m-1][n] ===1) {
+					return 1;
+				} 
 			}
 			break;
 		case "right":
+			var m=0;
+			var n=2;
 			var j = current_y+2;
-			for ( var i = current_x; i <= current_x + 2; ++i ){
-				if ( this.temp_grid[i][j+1].state === 1 && shapeObject.dimension[i][j]){
+			for ( var i = current_x; i <= current_x + 2; ++i, m++ ){
+				if ( this.temp_grid[i][j+1].state === 1 && shapeObject.dimension[m][n]){
 					return 1;
 				}
 			}
 			break;
 		case "left":
+			var m=0;
+			var n=0;
 			var j = current_y;
-			for ( var i = current_x; i <= current_x+2; ++i ){
-				if ( this.temp_grid[i][j-1].state === 1 && shapeObject.dimension[i][j]){
+			for ( var i = current_x; i <= current_x+2; ++i ,m++){
+				if ( this.temp_grid[i][j-1].state === 1 && shapeObject.dimension[m][n]){
 					return 1;
 				}
 			}
@@ -338,83 +347,122 @@ grid.copySuperimpose(superimpose);
 var current_x = 0;
 var current_y = 0;
 function move_down(shape_object){
-
+	//Check for collision/Out of BOunds
+	var bounds = superimpose.outOfBounds(shape_object,"down");
+	if(bounds === 1){
+		return 1;
+	}
+	var collision = superimpose.collisionDetection(shape_object,"down");
+	if(collision === 1){
+		alert("Collision Detected!")
+		return 1;
+	}
 	var m = 0;
 	var n = 0;
 	//First switch the current positions of the shape to 0
-	for(i= current_x; i <current_x+ shape_object.size_of; i++) 
+	for(i= current_x; i <current_x+ shape_object.size_of; i++, m++) 
 	{
-		for(j= current_y; j< current_y + shape_object.size_of; j++)
+		for(j= current_y; j< current_y + shape_object.size_of; j++, n++)
 		{
-			superimpose.temp_grid[i][j].state = 0;
-			// console.log(i +"\t" +j);
+			if(shape_object.dimension[m][n] === 1){ 		//CLEAR ONLY THE SHAPE, leave other blocks on grid
+			superimpose.temp_grid[i][j].state = 0; }
 		}
+	n =0;
 	}
 	alert("cleared");
 	// console.log("\n");
 	current_x+=1;
-
+	m = 0;
+	n=0;
 	//Update all the blocks of the shape to their new position
 	for(i= current_x; i <current_x+ shape_object.size_of; i++,m++) 
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++,n++)
 		{
+			if(superimpose.temp_grid[i][j].state != 1){			//if there is already something occupying the block but not colliding
 			superimpose.temp_grid[i][j].state = shape_object.dimension[m][n];
+			}
 		}
 		n=0;
 	}
+	return 0;
 }
 
 function move_left(shape_object){
+	//Check for collision/Out of BOunds
+	var bounds = superimpose.outOfBounds(shape_object,"left");
+	if(bounds === 1){
+		return 1;
+	}
+	var collision = superimpose.collisionDetection(shape_object,"left");
+	if(collision === 1){
+		return 1;
+	}
 	var m=0;
 	var n=0;
 	//First switch the current positions of the shape to 0
-	for(i = current_x; i<current_x+shape_object.size_of; i++)
+	for(i = current_x; i<current_x+shape_object.size_of; i++, m++)
 	{
-		for(j= current_y; j< current_y + shape_object.size_of; j++)
+		for(j= current_y; j< current_y + shape_object.size_of; j++, n++)
 		{
-			superimpose.temp_grid[i][j].state = 0;
-			//console.log(i +"\t" +j);
+			if(shape_object.dimension[m][n] === 1){ 		//CLEAR ONLY THE SHAPE, leave other blocks on grid
+			superimpose.temp_grid[i][j].state = 0;  }
 		}
+	n=0;
 	}
 
 current_y--;		//Update the current positon of the square 
 alert("cleared");
-
+m = 0;
+n=0;
 //Update all the blocks of the shape to their new position
 	for(i= current_x; i <current_x+ shape_object.size_of; i++,m++) 
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++,n++)
 		{
+			if(superimpose.temp_grid[i][j].state != 1){			//if there is already something occupying the block but not colliding
 			superimpose.temp_grid[i][j].state = shape_object.dimension[m][n];
-			//console.log(i + "\t" + j);
+			}
 		}
 		n=0;
 	}
 }	
 
 function move_right(shape_object){
+	//Check for collision/Out of BOunds
+	var bounds = superimpose.outOfBounds(shape_object,"right");
+	if(bounds === 1){
+		return 1;
+	}
+	var collision = superimpose.collisionDetection(shape_object,"right");
+	if(collision === 1){
+		return 1;
+	}
 	var m=0;
 	var n=0;
 	//First switch the current positions of the shape to 0
-	for(i = current_x; i<current_x+shape_object.size_of; i++)
+	for(i = current_x; i<current_x+shape_object.size_of; i++, m++)
 	{
-		for(j= current_y; j< current_y + shape_object.size_of; j++)
+		for(j= current_y; j< current_y + shape_object.size_of; j++, n++)
 		{
-			superimpose.temp_grid[i][j].state = 0;
-			//console.log(i +"\t" +j);
+			if(shape_object.dimension[m][n] === 1){ 		//CLEAR ONLY THE SHAPE, leave other blocks on grid
+			superimpose.temp_grid[i][j].state = 0;  }
 		}
+	n=0;
 	}
 
 current_y++;		//Update the current positon of the square 
 alert("cleared");
+m = 0;
+n=0;
 //Update all the blocks of the shape to their new position
 	for(i= current_x; i <current_x+ shape_object.size_of; i++,m++) 
 	{
 		for(j= current_y; j< current_y + shape_object.size_of; j++,n++)
 		{
+			if(superimpose.temp_grid[i][j].state != 1){			//if there is already something occupying the block but not colliding
 			superimpose.temp_grid[i][j].state = shape_object.dimension[m][n];
-			//console.log(i + "\t" + j);
+			}
 		}
 		n=0;
 	}
