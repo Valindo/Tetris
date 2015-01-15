@@ -53,6 +53,13 @@ function Shape_L(){
 	this.orientation = 2;
 }
 
+function Shape_I(){
+	this.dimension = [[1,1,1],];
+	this.size_of = 3;
+	this.rowSize = 1;
+	this.colSize = 3;
+	this.orientation = 0;
+}
 
 function TempShape (size_of,rowSize,colSize) {
 	this.dimension = [[0,0,0],
@@ -145,9 +152,9 @@ Superimpose.prototype.printSuper = function() {
 
 Superimpose.prototype.rotateShape = function(shapeObject,rotationDegree) {
 	var sandboxShape = new TempShape(shapeObject.size_of);
-	if ( rotationDegree >= shapeObject.orientation ){
-		rotationDegree = 0;
-	}
+	// if ( rotationDegree >= shapeObject.orientation ){
+	// 	rotationDegree = 0;
+	// }
 	for ( var i = current_x; i < current_x+shapeObject.rowSize; i ++ ){
 		for ( var j = current_y; j < current_y+shapeObject.colSize; j++){
 			this.temp_grid[i][j].state = 0;
@@ -167,6 +174,7 @@ Superimpose.prototype.rotateShape = function(shapeObject,rotationDegree) {
 			var m = 0;
 			var n = 0;
 			shapeObject.colSize= [shapeObject.rowSize, shapeObject.rowSize = shapeObject.colSize][0];
+			alert(shapeObject.colSize+" "+shapeObject.rowSize);
 			// for ( var i = 0; i < shapeObject.size_of; i++,m++ ){
 			// 	for ( var j = shapeObject.size_of - 1,n=0; j >=0; j--,n++ ){
 			// 		sandboxShape.dimension[m][n] = shapeObject.dimension[i][j];
@@ -394,7 +402,7 @@ var grid = new Grid(rows,cols);
 grid.init_grid();
 var superimpose = new Superimpose(rows,cols);
 superimpose.init_super();
-var t = new Shape_L();
+var t = new Shape_I();
 
 var canvas = document.getElementById("gridCanvas");
 var ctx = canvas.getContext("2d");
