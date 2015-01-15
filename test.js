@@ -174,7 +174,7 @@ Superimpose.prototype.rotateShape = function(shapeObject,rotationDegree) {
 			var m = 0;
 			var n = 0;
 			shapeObject.colSize= [shapeObject.rowSize, shapeObject.rowSize = shapeObject.colSize][0];
-			alert(shapeObject.colSize+" "+shapeObject.rowSize);
+			// alert(shapeObject.colSize+" "+shapeObject.rowSize);
 			// for ( var i = 0; i < shapeObject.size_of; i++,m++ ){
 			// 	for ( var j = shapeObject.size_of - 1,n=0; j >=0; j--,n++ ){
 			// 		sandboxShape.dimension[m][n] = shapeObject.dimension[i][j];
@@ -271,7 +271,7 @@ Superimpose.prototype.collisionDetection = function(shapeObject,direction) {
 			// 	} 
 			// }
 
-			alert("It reaches here");
+			// alert("It reaches here");
 			for ( var i = 0,m = current_x; i < shapeObject.rowSize && m < current_x+shapeObject.rowSize ; i++,m++ ){
 				console.log(i);
 				console.log(m);
@@ -508,7 +508,7 @@ function move_left(shape_object){
 	}
 
 current_y--;		//Update the current positon of the square 
-alert("cleared");
+// alert("cleared");
 m = 0;
 n=0;
 //Update all the blocks of the shape to their new position

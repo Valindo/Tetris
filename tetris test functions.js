@@ -19,3 +19,31 @@ move_left(t);
 superimpose.printSuper();
 move_left(t);
 superimpose.printSuper();
+
+document.onkeydown = function(e) {
+    e = e || window.event;
+    switch(e.which || e.keyCode) {
+ 		case 37: // left
+ 			move_left(t);
+ 			superimpose.printSuper();
+        break;
+
+        case 38: // up
+        	superimpose.rotateShape(t,1);
+        	superimpose.printSuper();
+        break;
+
+        case 39: // right
+        	move_right(t);
+        	superimpose.printSuper();
+        break;
+
+        case 40: // down
+        	
+        	move_down(t);
+       		superimpose.printSuper();
+        break;
+
+        default: return; //
+    }
+}
