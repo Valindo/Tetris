@@ -49,10 +49,10 @@ document.onkeydown = function(e) {
             //printGrid();
         break;
 
-        case 33:  //page up
-        	superimpose.copyShape(ShapeArray[gen]);			//leave the older shape on grid  and insert a new one at the top! 
-        	superimpose.printSuper();
-        break;
+        // case 33:  //page up
+        // 	superimpose.copyShape(ShapeArray[gen]);			//leave the older shape on grid  and insert a new one at the top! 
+        // 	superimpose.printSuper();
+        // break;
 
         default:
             // alert("Hello");
@@ -63,17 +63,18 @@ document.onkeydown = function(e) {
 
 var delay=500;//1 seconds
 setInterval(function(){
-    // alert("Runs");
+    // alert("Runs");end_
     condition = move_down(ShapeArray[gen]);
     if (condition === 1){
         gen = Math.floor((Math.random() * 4) + 1);
         end_of_game();
         superimpose.copyShape(ShapeArray[gen]);            //leave the older shape on grid  and insert a new one at the top! 
-        
+        // alert(score);
         //printGrid();
     }
     
     superimpose.printSuper();
+    // stx.fillText("Score is : "+score,20,50);
     
     
     },delay); 

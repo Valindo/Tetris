@@ -547,11 +547,13 @@ function move_down(shape_object){
 	if(bounds === 1){
 		// superimpose.copyShape(shape_object);
 		return 1;
+		restart();
 	}
 	var collision = superimpose.collisionDetection(shape_object,"down");
 	if(collision === 1){
 		// superimpose.copyShape(shape_object);
 		console.log("Collision Detected!")
+		restart();
 		return 1;
 	}
 	var m = 0;
@@ -672,13 +674,14 @@ function end_of_game() {
 				if(sum_of_row === superimpose.cols){
 					console.log("LINE "+i+" NEEDS TO BE REMOVED!!!!!!");
 					clear_lines(i);
+
 					return 1;
 				} 		
 		}
 		console.log("SUM of row"+i+"="+sum_of_row);
 		sum_of_row =0;
 	}
-	score+=10;
+	
 	return 0;
 }
 
@@ -709,4 +712,16 @@ function clear_lines(line){
 // superimpose.printSuper();
 // }, 1000);
 
-var score =0;
+// var score =0;
+
+function restart(){
+	alert("restart has been called ");
+	for(var i=0; i<2; i++){
+		for(var j=0; j<cols;j++){
+			if(superimpose.temp_grid[i][j].state === 1){
+					superimpose.init_super();
+					superimpose.printSuper();
+			}
+		}
+	}
+}
