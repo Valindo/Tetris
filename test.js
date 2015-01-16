@@ -415,7 +415,7 @@ var grid = new Grid(rows,cols);
 grid.init_grid();
 var superimpose = new Superimpose(rows,cols);
 superimpose.init_super();
-var t = new Shape_T();
+var t = new Shape_I();
 
 var canvas = document.getElementById("gridCanvas");
 var ctx = canvas.getContext("2d");
@@ -444,6 +444,7 @@ var current_x = 0;
 var current_y = 0;
 function move_down(shape_object){
 	//Check for collision/Out of BOunds
+	
 	var bounds = superimpose.outOfBounds(shape_object,"down");
 	if(bounds === 1){
 		return 1;
@@ -481,6 +482,7 @@ function move_down(shape_object){
 		}
 		n=0;
 	}
+	end_of_game();
 	return 0;
 }
 
@@ -561,3 +563,35 @@ n=0;
 		}
 	}
 }	
+
+function end_of_game() {
+	var sum_of_row =0;
+	for(i=0; i<superimpose.rows; i++){
+		for(j=0;j<superimpose.cols; j++){
+				sum_of_row = sum_of_row +superimpose.temp_grid[i][j].state;
+				if(sum_of_row === superimpose.cols){
+					console.log("LINE "+i+" NEEDS TO BE REMOVED!!!!!!");
+					clear_lines(i);
+					return 1;
+				} 		
+		}
+		console.log("SUM of row"+i+"="+sum_of_row);
+		sum_of_row =0;
+	}
+	return 0;
+}
+
+function clear_lines(line){
+		for(j=0;j<superimpose.cols;j++){
+			superimpose.temp_grid[line][j].state = 0;  	//Assign the completed row to 0
+		}
+		superimpose.printSuper();
+		for(i=line;i>0;i--){
+			for(j=0;j<superimpose.cols;j++){
+			superimpose.temp_grid[i][j].state = superimpose.temp_grid[i-1][j].state;
+				}
+		}
+		for(var k=0; k<superimpose.cols; k++){
+			superimpose.temp_grid[0][k].state=0;
+				}	
+}

@@ -44,6 +44,15 @@ document.onkeydown = function(e) {
        		superimpose.printSuper();
         break;
 
-        default: return; //
+        case 33:  //page up
+        	superimpose.copyShape(t);			//leave the older shape on grid  and insert a new one at the top! 
+        	superimpose.printSuper();
+        break;
+
+        default:
+   		return; 
     }
 }
+
+// superimpose.copyShape(t);
+
