@@ -444,14 +444,14 @@ Superimpose.prototype.outOfBounds = function(shapeObject,direction) {
 		case "right":
 			var check = current_y + shapeObject.colSize;
 			if ( check >= cols ){
-				alert("Cannot move right");
+				// alert("Cannot move right");
 				return 1;
 			}
 			break;
 		case "left":
 			var check = current_y - 1;
 			if ( check < 0 ){
-				alert("Cannot move left out of bounds");
+				// alert("Cannot move left out of bounds");
 				return 1;
 			}
 			break;
@@ -527,7 +527,7 @@ var ShapeT = new Shape_T();
 var ShapeSquare = new Shape_Square();
 
 var ShapeArray = [ShapeL, ShapeZ, ShapeT, ShapeI, ShapeSquare];
-var gen = Math.floor((Math.random() * 5) + 1);
+var gen = Math.floor((Math.random() * 4) + 1);
 superimpose.copyShape(ShapeArray[gen]);            //leave the older shape on grid  and insert a new one at the top! 
 superimpose.printSuper();
 
@@ -582,7 +582,7 @@ function move_down(shape_object){
 		}
 		n=0;
 	}
-	end_of_game();
+	
 	return 0;
 }
 

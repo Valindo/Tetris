@@ -39,6 +39,7 @@ document.onkeydown = function(e) {
         	condition = move_down(ShapeArray[gen]);
             if (condition === 1){
                 gen = Math.floor((Math.random() * 4) + 1);
+                end_of_game();
                 superimpose.copyShape(ShapeArray[gen]);            //leave the older shape on grid  and insert a new one at the top! 
                 
                 //printGrid();
@@ -54,10 +55,27 @@ document.onkeydown = function(e) {
         break;
 
         default:
-   		return; 
+            // alert("Hello");
+            break;
+
     }
 }
 
+var delay=500;//1 seconds
+setInterval(function(){
+    // alert("Runs");
+    condition = move_down(ShapeArray[gen]);
+    if (condition === 1){
+        gen = Math.floor((Math.random() * 4) + 1);
+        end_of_game();
+        superimpose.copyShape(ShapeArray[gen]);            //leave the older shape on grid  and insert a new one at the top! 
+        
+        //printGrid();
+    }
+    
+    superimpose.printSuper();
+    
+    },delay); 
 
 // superimpose.copyShape(ShapeArray[gen]);
 
