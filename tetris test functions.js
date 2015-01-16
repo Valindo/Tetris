@@ -5,47 +5,51 @@
 // function display() {
 // alert(superimpose.temp_grid[0] + "\n" + superimpose.temp_grid[1] + "\n" + superimpose.temp_grid[2] + "\n" + superimpose.temp_grid[3] + "\n" + superimpose.temp_grid[4] + "\n" + superimpose.temp_grid[5] + "\n" + superimpose.temp_grid[6] + "\n" + superimpose.temp_grid[7] + "\n" + superimpose.temp_grid[8] + "\n" + superimpose.temp_grid[9] + "\n" );
 // }
-
-superimpose.copyShape(t);
-// superimpose.temp_grid[6][1].state = 1;
-superimpose.temp_grid[8][0].state = 1;
-// superimpose.temp_grid[7][8].state = 1;
-
-superimpose.printSuper();
-// superimpose.rotateShape(t,1);
-move_right(t);
-superimpose.printSuper();
-move_left(t);
-superimpose.printSuper();
-move_left(t);
-superimpose.printSuper();
-
+function printGrid(){
+for(var i = 0; i< rows; i++){
+    for(var j =0; j <cols; j++){
+        document.write(superimpose.temp_grid[i][j].state);
+    }
+    document.write("<br/>");
+}
+}
+var condition = 0;
 document.onkeydown = function(e) {
     e = e || window.event;
     switch(e.which || e.keyCode) {
  		case 37: // left
- 			move_left(t);
+ 			move_left(ShapeArray[gen]);
  			superimpose.printSuper();
+            // printGrid();
         break;
 
         case 38: // up
-        	superimpose.rotateShape(t,1);
+        	superimpose.rotateShape(ShapeArray[gen],1);
         	superimpose.printSuper();
+            //printGrid();
         break;
 
         case 39: // right
-        	move_right(t);
+        	move_right(ShapeArray[gen]);
         	superimpose.printSuper();
+            //printGrid();
         break;
 
         case 40: // down
-        	
-        	move_down(t);
+        	condition = move_down(ShapeArray[gen]);
+            if (condition === 1){
+                gen = Math.floor((Math.random() * 4) + 1);
+                superimpose.copyShape(ShapeArray[gen]);            //leave the older shape on grid  and insert a new one at the top! 
+                
+                //printGrid();
+            }
+            
        		superimpose.printSuper();
+            //printGrid();
         break;
 
         case 33:  //page up
-        	superimpose.copyShape(t);			//leave the older shape on grid  and insert a new one at the top! 
+        	superimpose.copyShape(ShapeArray[gen]);			//leave the older shape on grid  and insert a new one at the top! 
         	superimpose.printSuper();
         break;
 
@@ -54,5 +58,6 @@ document.onkeydown = function(e) {
     }
 }
 
-// superimpose.copyShape(t);
+
+// superimpose.copyShape(ShapeArray[gen]);
 

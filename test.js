@@ -18,8 +18,8 @@ function Grid(rows,cols) {
 }
 
 function Shape_Square(){					
-	this.dimension = [[1,1,0],
-					  [1,1,0]];
+	this.dimension = [[1,1],
+					  [1,1]];
 	this.size_of = 2;
 	this.rowSize = 2;
 	this.colSize = 2;
@@ -37,7 +37,7 @@ function Shape_T(){
 
 function Shape_Z(){
 	this.dimension = [[1,1,0],
-					  [0,1,1],];
+					  [0,1,1]];
 	this.size_of = 3;
 	this.rowSize = 2;
 	this.colSize = 3;
@@ -54,7 +54,7 @@ function Shape_L(){
 }
 
 function Shape_I(){
-	this.dimension = [[1,1,1],];
+	this.dimension = [[1,1,1]];
 	this.size_of = 3;
 	this.rowSize = 1;
 	this.colSize = 3;
@@ -101,7 +101,7 @@ Superimpose.prototype.newShape = function(shape_object) {
 	var valid_state = 0;
 	for ( var i = 0; i < 3; i++ ){
 		for ( var j = 0; j < 3; j++ ){
-			if ( this.temp_grid[i][j] != 0 ){
+			if ( this.temp_grid[i][j] != 0 ){				//check if there is place before inserting objec
 				valid_state = 1;
 			}
 		}
@@ -127,12 +127,51 @@ Superimpose.prototype.copyShape = function(shape_object){
 	for ( var i = 0; i < shape_object.rowSize; i++ ){
 		for ( var j = 0; j < shape_object.colSize; j++ ){
 			// if ( this.collisionDetection(shape_object, i, j) ){
-			if ( shape_object.dimension[i][j] === 1){
-				this.temp_grid[i][j].state = 1;
-			}
+			 
+				if ( shape_object.dimension[i][j] === 1){
+						this.temp_grid[i][j].state = 1;
+				}
+			
 		}
 	}
+	//Need to add test to check values of all properties of ShapeObjects [all]
+	//superimpose.printSuper();
 };
+
+// document.onkeydown = function(e) {
+//     e = e || window.event;
+//     switch(e.which || e.keyCode) {
+//  		case 37: // left
+//  			move_left(t);
+//  			superimpose.printSuper();
+//         break;
+
+//         case 38: // up
+//         	superimpose.rotateShape(t,1);
+//         	superimpose.printSuper();
+//         break;
+
+//         case 39: // right
+//         	move_right(t);
+//         	superimpose.printSuper();
+//         break;
+
+//         case 40: // down
+        	
+//         	move_down(t);
+//        		superimpose.printSuper();
+//         break;
+
+//         case 33:  //page up
+//         	superimpose.copyShape(t);			//leave the older shape on grid  and insert a new one at the top! 
+//         	superimpose.printSuper();
+//         break;
+
+//         default:
+//    		return; 
+//     }
+// }
+
 
 Superimpose.prototype.printSuper = function() {
 	for( var i = 0; i < canvas_height; i+=padding ){
@@ -254,6 +293,48 @@ Grid.prototype.copySuperimpose = function(super_object) {
 	}
 };
 
+//Function that returns random value between 1 and 4
+// Superimpose.prototype.Generate_random_Shape = function(){
+// console.log("Inside Gen Random shape");
+// var gen = Math.floor((Math.random() * 5) + 1);
+// console.log("Random number generated is "+gen);
+// 	switch (gen)
+// 	{
+// 		case 1:
+// 			var t = new Shape_T();
+			
+// 			superimpose.copyShape(t);
+// 		break;
+
+// 		case 2:
+// 			var t = new Shape_L();
+		
+// 			superimpose.copyShape(t);
+// 		break;
+
+// 		case 3: 
+// 			var t = new Shape_I();
+		
+// 			superimpose.copyShape(t);
+// 		break;
+
+// 		case 4:
+// 			var t = new Shape_Z();
+		
+// 			superimpose.copyShape(t);
+// 		break;
+
+// 		case 5:
+// 			var t = new Shape_Square();
+		
+// 			superimpose.copyShape(t);
+// 		break;
+// 	}
+// }
+
+
+
+
 Superimpose.prototype.collisionDetection = function(shapeObject,direction) {
 	switch ( direction ){
 		case "down":
@@ -280,16 +361,19 @@ Superimpose.prototype.collisionDetection = function(shapeObject,direction) {
 				for ( var j = 0,n = current_y; j < shapeObject.colSize && n < current_y+shapeObject.colSize; j++,n++ ){
 					console.log(j);
 					console.log(n);
+					console.log(nextBlockShape);
+					console.log(shapeObject.rowSize);
+					console.log(" ");
 					if ( nextBlockShape >= shapeObject.rowSize  &&  nextBlockGrid >= current_x+shapeObject.rowSize ){
 						if ( shapeObject.dimension[i][j] === 1 && this.temp_grid[nextBlockGrid][n].state === 1){
-							console.log("HEYYYYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+							console.log("HEYY in if collision ");
 							return 1;
 						}
 					}
 					else{
 						if ( shapeObject.dimension[i][j] === 1 && shapeObject.dimension[nextBlockShape][j] === 0 ){
 							if ( this.temp_grid[nextBlockGrid][n].state===1 ){
-								console.log("HEYYYYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+								console.log("HEYY in else collision");
 								return 1;
 							}
 						}
@@ -352,7 +436,8 @@ Superimpose.prototype.outOfBounds = function(shapeObject,direction) {
 			var check = current_x + shapeObject.rowSize;
 			if ( check >= rows ){
 				
-				alert("Cannot Move Down");
+				// alert("Cannot Move Down");
+				// this.copyShape(shapeObject);
 				return 1;
 			}
 			break;
@@ -374,28 +459,28 @@ Superimpose.prototype.outOfBounds = function(shapeObject,direction) {
 	return 0;
 };
 
-Superimpose.prototype.shapeManupilator = function(shapeObject,direction) {
-	var sandboxShape = new TempShape(shapeObject.size_of);
-	switch(direction){
-		case "down":
-			for ( i = 1; i < 3; i++ ){
-				for ( j = 0; j < 3; j++ ){
-					sandboxShape.dimension[i][j] = shapeObject.dimension[i-1][j];
-				}
-			}
-			for ( i = 0; i < 3; i++ ){
-				for ( j = 0; j < 3; j++ ){
-					shapeObject.dimension[i][j];
-					shapeObject.dimension[i][j] = sandboxShape.dimension[i][j];
-				}
-			}
-			break;
-		case "right":
-			break;
-		case "left":
-			break;
-	}
-};
+// Superimpose.prototype.shapeManupilator = function(shapeObject,direction) {
+// 	var sandboxShape = new TempShape(shapeObject.size_of);
+// 	switch(direction){
+// 		case "down":
+// 			for ( i = 1; i < 3; i++ ){
+// 				for ( j = 0; j < 3; j++ ){
+// 					sandboxShape.dimension[i][j] = shapeObject.dimension[i-1][j];
+// 				}
+// 			}
+// 			for ( i = 0; i < 3; i++ ){
+// 				for ( j = 0; j < 3; j++ ){
+// 					shapeObject.dimension[i][j];
+// 					shapeObject.dimension[i][j] = sandboxShape.dimension[i][j];
+// 				}
+// 			}
+// 			break;
+// 		case "right":
+// 			break;
+// 		case "left":
+// 			break;
+// 	}
+// };
 // 	if ( state === 1 ){
 // 		console.log("Invalid move");
 // 	}
@@ -415,7 +500,7 @@ var grid = new Grid(rows,cols);
 grid.init_grid();
 var superimpose = new Superimpose(rows,cols);
 superimpose.init_super();
-var t = new Shape_I();
+// var t = new Shape_I();
 
 var canvas = document.getElementById("gridCanvas");
 var ctx = canvas.getContext("2d");
@@ -435,22 +520,37 @@ grid.copySuperimpose(superimpose);
 // 	}
 // }
 
+var ShapeL = new Shape_L();
+var ShapeZ = new Shape_Z();
+var ShapeI = new Shape_I();
+var ShapeT = new Shape_T();
+var ShapeSquare = new Shape_Square();
 
+var ShapeArray = [ShapeL, ShapeZ, ShapeT, ShapeI, ShapeSquare];
+var gen = Math.floor((Math.random() * 5) + 1);
+superimpose.copyShape(ShapeArray[gen]);            //leave the older shape on grid  and insert a new one at the top! 
+superimpose.printSuper();
 
 
 
 
 var current_x = 0;
 var current_y = 0;
+
+
+
 function move_down(shape_object){
 	//Check for collision/Out of BOunds
-	
+	console.log(gen);
+
 	var bounds = superimpose.outOfBounds(shape_object,"down");
 	if(bounds === 1){
+		// superimpose.copyShape(shape_object);
 		return 1;
 	}
 	var collision = superimpose.collisionDetection(shape_object,"down");
 	if(collision === 1){
+		// superimpose.copyShape(shape_object);
 		console.log("Collision Detected!")
 		return 1;
 	}
@@ -594,4 +694,16 @@ function clear_lines(line){
 		for(var k=0; k<superimpose.cols; k++){
 			superimpose.temp_grid[0][k].state=0;
 				}	
+		end_of_game();				//Calls end of game again to check for any more complete lines that need to be cleared.
 }
+
+// superimpose.printSuper();
+// superimpose.Generate_random_Shape();
+// alert("Row size of current obj is: "+t.rowSize);
+// move_down(t);
+// superimpose.printSuper();
+
+// setInterval(function(){
+// move_down(t);
+// superimpose.printSuper();
+// }, 1000);
