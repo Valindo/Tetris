@@ -678,6 +678,7 @@ function end_of_game() {
 		console.log("SUM of row"+i+"="+sum_of_row);
 		sum_of_row =0;
 	}
+	score+=10;
 	return 0;
 }
 
@@ -707,3 +708,5 @@ function clear_lines(line){
 // move_down(t);
 // superimpose.printSuper();
 // }, 1000);
+
+var score =0;
